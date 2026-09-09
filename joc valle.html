@@ -1,0 +1,2161 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>La missió secreta de Valle 💌</title>
+
+<style>
+
+@import url('https://fonts.googleapis.com/css2?family=Caveat:wght@500;600;700&family=DM+Sans:wght@400;500;700&display=swap');
+
+:root{
+  --rosa:#ff6f91;
+  --rosa2:#ffb3c6;
+  --crema:#fff8f3;
+  --tinta:#4b3440;
+  --lila:#8f7aea;
+  --verd:#78bfa3;
+  --groc:#ffd66b;
+  --blau:#8cc9df;
+}
+
+*{
+  box-sizing:border-box
+}
+
+body{
+  margin:0;
+  min-height:100vh;
+  color:var(--tinta);
+  font-family:"DM Sans",sans-serif;
+
+  background:
+    radial-gradient(circle at 10% 15%,#ffdce6 0 7%,transparent 8%),
+    radial-gradient(circle at 90% 10%,#e7ddff 0 8%,transparent 9%),
+    linear-gradient(135deg,#fff5f7,#f8f4ff 55%,#fff9ef);
+
+  overflow-x:hidden;
+}
+
+.petal{
+  position:fixed;
+  z-index:0;
+  pointer-events:none;
+  opacity:.45;
+  animation:caure 9s linear infinite
+}
+
+@keyframes caure{
+  from{
+    transform:translateY(-10vh) rotate(0)
+  }
+  to{
+    transform:translateY(110vh) rotate(360deg)
+  }
+}
+
+main{
+  position:relative;
+  z-index:1;
+  max-width:920px;
+  margin:auto;
+  padding:28px 18px 70px
+}
+
+.pantalla{
+  display:none;
+  animation:entrada .55s ease both
+}
+
+.pantalla.activa{
+  display:block
+}
+
+@keyframes entrada{
+  from{
+    opacity:0;
+    transform:translateY(18px)
+  }
+  to{
+    opacity:1;
+    transform:none
+  }
+}
+
+.capsa{
+  background:#ffffffc9;
+  backdrop-filter:blur(14px);
+  border:1px solid #ffffffea;
+  border-radius:30px;
+  box-shadow:0 20px 60px #704b641f;
+  padding:clamp(25px,5vw,55px)
+}
+
+.hero{
+  text-align:center;
+  min-height:80vh;
+  display:flex;
+  flex-direction:column;
+  justify-content:center
+}
+
+.sobre{
+  font-size:4rem;
+  animation:flota 3s ease-in-out infinite
+}
+
+@keyframes flota{
+  50%{
+    transform:translateY(-8px) rotate(2deg)
+  }
+}
+
+h1,h2{
+  font-family:Caveat,cursive;
+  font-weight:700;
+  margin:.15em 0
+}
+
+h1{
+  font-size:clamp(3.5rem,11vw,6.5rem);
+  color:var(--rosa);
+  line-height:.9
+}
+
+h2{
+  font-size:clamp(2.4rem,7vw,4rem);
+  color:#684e65
+}
+
+h3{
+  margin-top:0
+}
+
+.sub{
+  font-size:1.08rem;
+  line-height:1.7;
+  max-width:680px;
+  margin:18px auto
+}
+
+.firma{
+  font-family:Caveat,cursive;
+  font-size:2rem;
+  color:var(--rosa);
+  margin-top:25px
+}
+
+button{
+  border:0;
+  border-radius:999px;
+  padding:13px 21px;
+  font:700 1rem "DM Sans";
+  cursor:pointer;
+  background:var(--rosa);
+  color:#fff;
+  box-shadow:0 8px 20px #ff6f9138;
+  transition:.2s transform,.2s box-shadow
+}
+
+button:hover{
+  transform:translateY(-2px);
+  box-shadow:0 11px 25px #ff6f9148
+}
+
+button:disabled{
+  cursor:default
+}
+
+button.sec{
+  background:#eee8ff;
+  color:#6652a2
+}
+
+.progress{
+  display:flex;
+  gap:7px;
+  justify-content:center;
+  margin:0 0 24px;
+  flex-wrap:wrap
+}
+
+.dot{
+  width:30px;
+  height:8px;
+  border-radius:99px;
+  background:#e6dfe4
+}
+
+.dot.ok{
+  background:var(--rosa)
+}
+
+.enigma{
+  margin:25px 0;
+  padding:22px;
+  border-radius:22px;
+  background:#fff7fa;
+  border:2px dashed #ffc1d0
+}
+
+.pista{
+  background:#f2efff;
+  padding:13px 16px;
+  border-radius:16px;
+  margin:12px 0;
+  color:#5f4d91
+}
+
+.opcions{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(150px,1fr));
+  gap:12px;
+  margin-top:18px
+}
+
+.opcio{
+  background:#fff;
+  color:var(--tinta);
+  border:2px solid #eadfe5;
+  box-shadow:none
+}
+
+.opcio:hover{
+  border-color:var(--rosa2)
+}
+
+.opcio.correcte{
+  background:#e5f7ee;
+  border-color:#79c5a0
+}
+
+.opcio.incorrecte{
+  animation:shake .3s
+}
+
+@keyframes shake{
+  25%{
+    transform:translateX(-5px)
+  }
+  75%{
+    transform:translateX(5px)
+  }
+}
+
+.nota{
+  min-height:28px;
+  margin-top:14px;
+  font-weight:700
+}
+
+.petita{
+  opacity:.7;
+  font-size:.9rem
+}
+
+.secret{
+  font-family:Caveat;
+  font-size:2.1rem;
+  color:var(--rosa);
+  margin-top:18px
+}
+
+input{
+  width:100%;
+  padding:14px 16px;
+  border:2px solid #eadfe5;
+  border-radius:16px;
+  font:500 1rem "DM Sans";
+  outline:none
+}
+
+input:focus{
+  border-color:var(--rosa2)
+}
+
+
+/* =========================
+   PARAULÒGIC
+========================= */
+
+.abella{
+  display:grid;
+  grid-template-columns:repeat(3,76px);
+  grid-template-rows:repeat(3,76px);
+  justify-content:center;
+  gap:7px;
+  margin:25px auto
+}
+
+.lletra{
+  width:76px;
+  height:76px;
+  border-radius:22px;
+  background:#ffe0a8;
+  color:#795b2b;
+  font-size:1.7rem;
+  font-weight:700;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  box-shadow:0 7px 0 #e7bd70;
+  cursor:pointer;
+  user-select:none
+}
+
+.lletra.centre{
+  background:#ffb347;
+  color:#fff;
+  box-shadow:0 7px 0 #d98920
+}
+
+.lletra.seleccionada{
+  transform:translateY(5px);
+  box-shadow:0 2px 0 #d9a35c;
+  background:#ffd17c
+}
+
+.paraulagic{
+  background:#fffaf0;
+  border:2px solid #f2d99f;
+  padding:18px;
+  border-radius:22px
+}
+
+.paraulagic .cap{
+  font-weight:700
+}
+
+.llista-paraules{
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+  margin-top:15px
+}
+
+.xip{
+  background:#fff;
+  border:1px solid #eadfe5;
+  border-radius:999px;
+  padding:7px 11px;
+  font-size:.9rem
+}
+
+.xip.bona{
+  background:#e8f8ef;
+  border-color:#9bd5b8
+}
+
+.entrada-paraula{
+  display:flex;
+  gap:8px;
+  margin-top:16px
+}
+
+.entrada-paraula input{
+  flex:1
+}
+
+#missatgeP{
+  min-height:27px;
+  margin-top:10px;
+  font-weight:700
+}
+
+
+/* =========================
+   ROBOT DREAMS
+========================= */
+
+.robot-box{
+  background:#eef9fc;
+  border:2px solid #b7dfe9;
+  padding:22px;
+  border-radius:24px
+}
+
+.robot-escena{
+  display:flex;
+  justify-content:center;
+  gap:14px;
+  font-size:3.5rem;
+  margin:25px 0
+}
+
+.memoria{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:12px;
+  max-width:520px;
+  margin:25px auto
+}
+
+.memoria button{
+  height:90px;
+  font-size:2rem;
+  background:#fff;
+  color:var(--tinta);
+  border:2px solid #c8e5ed;
+  box-shadow:none
+}
+
+.memoria button.descoberta{
+  background:#dff5fa;
+  border-color:#83c8d8
+}
+
+.memoria button.errada{
+  animation:shake .3s
+}
+
+
+/* =========================
+   PAQUITA
+========================= */
+
+.paquita-box{
+  background:#fff3f5;
+  border:2px solid #f2b7c6;
+  padding:22px;
+  border-radius:24px
+}
+
+.paqui-top{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:15px;
+  flex-wrap:wrap;
+  margin-bottom:15px
+}
+
+.paqui-puntuacio{
+  background:#fff;
+  border:2px solid #f2c5d0;
+  border-radius:999px;
+  padding:9px 14px;
+  font-weight:700
+}
+
+.paqui-frase{
+  background:#fff;
+  border:2px dashed #efb5c3;
+  border-radius:18px;
+  padding:20px;
+  text-align:center;
+  min-height:90px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  margin-top:18px;
+  font-size:1.08rem;
+  line-height:1.6
+}
+
+.paqui-blank{
+  display:inline-block;
+  min-width:110px;
+  padding:2px 10px;
+  margin:0 5px;
+  border-bottom:3px solid var(--rosa);
+  color:var(--rosa);
+  font-weight:700
+}
+
+
+/* =========================
+   THE OFFICE
+========================= */
+
+.office-box{
+  background:#f7f7f2;
+  border:2px solid #d8d8cf;
+  padding:22px;
+  border-radius:12px
+}
+
+.office-cap{
+  display:flex;
+  justify-content:space-between;
+  gap:10px;
+  align-items:center;
+  border-bottom:1px solid #ccc;
+  padding-bottom:12px;
+  margin-bottom:20px
+}
+
+.office-logo{
+  font-weight:700;
+  font-size:1.2rem
+}
+
+.postit-office{
+  background:#fff7a8;
+  padding:16px;
+  border-radius:4px;
+  box-shadow:0 4px 10px #00000012;
+  margin:15px 0;
+  transform:rotate(-1deg)
+}
+
+.office-info{
+  display:flex;
+  justify-content:space-between;
+  gap:10px;
+  flex-wrap:wrap;
+  margin:15px 0;
+  font-weight:700
+}
+
+.office-joc{
+  background:#fff;
+  border:2px solid #ddd;
+  border-radius:18px;
+  padding:22px;
+  margin:20px auto;
+  max-width:620px;
+  text-align:center
+}
+
+.office-personatge{
+  font-size:4rem;
+  margin:15px 0
+}
+
+.office-pregunta{
+  font-family:Caveat,cursive;
+  font-size:1.9rem;
+  color:#684e65;
+  margin:15px 0
+}
+
+.office-opcions{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:10px;
+  margin-top:20px
+}
+
+.office-opcio{
+  background:#fff;
+  color:#333;
+  border:2px solid #ddd;
+  box-shadow:none;
+  border-radius:12px;
+  min-height:70px
+}
+
+.office-opcio.correcte{
+  background:#e5f7ee;
+  border-color:#7bc49d
+}
+
+.office-opcio.incorrecte{
+  background:#fff0f0;
+  border-color:#e6a0a0;
+  animation:shake .3s
+}
+
+.office-frase{
+  min-height:50px;
+  margin-top:18px;
+  font-weight:700
+}
+
+
+/* =========================
+   FINAL
+========================= */
+
+.targeta-final{
+  text-align:center
+}
+
+.cor{
+  font-size:5rem;
+  animation:batec 1s infinite
+}
+
+@keyframes batec{
+  50%{
+    transform:scale(1.13)
+  }
+}
+
+.postit{
+  background:#fff4a8;
+  display:inline-block;
+  padding:20px 24px;
+  transform:rotate(-2deg);
+  box-shadow:0 9px 18px #80651b1c;
+  font-family:Caveat;
+  font-size:1.8rem;
+  margin:20px 0
+}
+
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media(max-width:600px){
+
+  .abella{
+    grid-template-columns:repeat(3,64px);
+    grid-template-rows:repeat(3,64px)
+  }
+
+  .lletra{
+    width:64px;
+    height:64px
+  }
+
+  .memoria{
+    grid-template-columns:repeat(2,1fr)
+  }
+
+  .office-opcions{
+    grid-template-columns:1fr
+  }
+
+  .capsa{
+    padding:23px 18px
+  }
+
+}
+
+</style>
+</head>
+
+
+<body>
+
+
+<script>
+
+for(let i=0;i<18;i++){
+
+  const p=document.createElement('div');
+
+  p.className='petal';
+
+  p.textContent=['♥','✦','♡','·'][i%4];
+
+  p.style.left=Math.random()*100+'vw';
+
+  p.style.animationDelay=(-Math.random()*9)+'s';
+
+  p.style.fontSize=(12+Math.random()*22)+'px';
+
+  document.body.appendChild(p);
+
+}
+
+</script>
+
+
+<main>
+
+
+<!-- ===================== -->
+<!-- INICI -->
+<!-- ===================== -->
+
+<section id="s0" class="pantalla activa">
+
+<div class="capsa hero">
+
+<div class="sobre">💌</div>
+
+<h1>Hola, Valle</h1>
+
+<p class="sub">
+
+He decidit que, com que estàs malalta i coneixent-te
+avorrida segur d'estar quieta, era un bon moment per demostrar-te
+que puc invertir una quantitat preocupant de temps en fer
+una pàgina web que probablement no necessitaves.
+
+</p>
+
+<p class="sub">
+
+<b>La missió és senzilla:</b>
+
+superar unes quantes proves que t'he preparat.
+
+N'hi ha algunes fàcils, algunes absurdes i alguna que
+m'he currat més del que seria socialment acceptable.
+
+</p>
+
+<p class="sub">
+
+I sí: hi ha referències a coses que ens agraden.
+Si les reconeixes, punt imaginari per tu.
+
+</p>
+
+<div class="firma">
+
+Espero que serveixi perquè et distreguis una miqueta
+sigui quan sigui que ho obris,<br>
+
+Natàlia ♡
+
+</div>
+
+<div style="margin-top:30px">
+
+<button onclick="anar(1)">
+Obrir la missió ✨
+</button>
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- ===================== -->
+<!-- MISSIÓ 1 -->
+<!-- ===================== -->
+
+<section id="s1" class="pantalla">
+
+<div class="progress">
+<span class="dot ok"></span>
+<span class="dot"></span>
+<span class="dot"></span>
+<span class="dot"></span>
+<span class="dot"></span>
+<span class="dot"></span>
+<span class="dot"></span>
+<span class="dot"></span>
+</div>
+
+<div class="capsa">
+
+<h2>Missió 1 · Comencem fort 🔎</h2>
+
+<p>
+
+Primera prova. He començat fàcil perquè tampoc vull que
+abandonis a la primera pantalla i em deixis aquí parlant sola.
+
+</p>
+
+<div class="enigma">
+
+<h3>
+🌙 → ⭐ → 🌙 → ⭐ → 🌙 → ?
+</h3>
+
+<p class="petita">
+
+Pista: no cal ser Einstein.
+Ni tan sols estar especialment desperta. 😌
+
+</p>
+
+<div class="opcions">
+
+<button class="opcio" onclick="seq(this,false)">
+🌙
+</button>
+
+<button class="opcio" onclick="seq(this,true)">
+⭐
+</button>
+
+<button class="opcio" onclick="seq(this,false)">
+☀️
+</button>
+
+</div>
+
+<div id="n1" class="nota"></div>
+
+</div>
+
+<button id="b1" style="display:none" onclick="anar(2)">
+Continuar →
+</button>
+
+</div>
+
+</section>
+
+
+<!-- ===================== -->
+<!-- MISSIÓ 2 -->
+<!-- ===================== -->
+
+<section id="s2" class="pantalla">
+
+<div class="progress">
+<span class="dot ok"></span>
+<span class="dot ok"></span>
+<span class="dot"></span>
+<span class="dot"></span>
+<span class="dot"></span>
+<span class="dot"></span>
+<span class="dot"></span>
+<span class="dot"></span>
+</div>
+
+<div class="capsa">
+
+<h2>Missió 2 · El codi de Valle 🔐</h2>
+
+<p>
+
+Ara ja que estàs dins, no et penso deixar escapar tan fàcilment.
+
+</p>
+
+<p>
+🐱 + 🐱 = 10<br>
+🐱 + 🌸 = 8<br>
+🌸 + 💗 = 6
+</p>
+
+<p>
+
+Quant val <b>🐱 + 🌸 + 💗</b>?
+
+</p>
+
+<div class="opcions">
+
+<button class="opcio" onclick="num(this,16)">
+16
+</button>
+
+<button class="opcio" onclick="num(this,14)">
+14
+</button>
+
+<button class="opcio" onclick="num(this,12)">
+12
+</button>
+
+</div>
+
+<div id="n2" class="nota"></div>
+
+<button id="b2" style="display:none" onclick="anar(3)">
+Desbloquejar →
+</button>
+
+</div>
+
+</section>
+
+
+<!-- ===================== -->
+<!-- MISSIÓ 3 -->
+<!-- ===================== -->
+
+<section id="s3" class="pantalla">
+
+<div class="progress">
+<span class="dot ok"></span>
+<span class="dot ok"></span>
+<span class="dot ok"></span>
+<span class="dot"></span>
+<span class="dot"></span>
+<span class="dot"></span>
+<span class="dot"></span>
+<span class="dot"></span>
+</div>
+
+<div class="capsa">
+
+<h2>Missió 3 · Paraulògic perquè sí 🐝</h2>
+
+<p>
+
+Aquí és on he decidit comprovar si realment tens vocabulari
+o si només fas veure que sí jugant al Paraulògic.
+
+</p>
+
+<div class="paraulagic">
+
+<div class="cap">
+Regles, perquè després no em vinguis amb excuses:
+</div>
+
+<p>
+
+• Paraules de <b>4 lletres o més</b>.<br>
+
+• La <b>R</b> del mig ha d'aparèixer sempre.<br>
+
+• Pots repetir lletres.<br>
+
+• No val inventar-te paraules i després mirar-me amb cara de
+"però això existeix". També et dic, seran correctes les que
+jo hagi sigut capaç d'identificar primer jaja.
+
+</p>
+
+<div class="abella">
+
+<div></div>
+
+<div class="lletra" onclick="afegir('A',this)">A</div>
+
+<div></div>
+
+<div class="lletra" onclick="afegir('M',this)">M</div>
+
+<div class="lletra centre" onclick="afegir('R',this)">R</div>
+
+<div class="lletra" onclick="afegir('E',this)">E</div>
+
+<div class="lletra" onclick="afegir('T',this)">T</div>
+
+<div class="lletra" onclick="afegir('O',this)">O</div>
+
+<div class="lletra" onclick="afegir('L',this)">L</div>
+
+</div>
+
+<div class="entrada-paraula">
+
+<input
+id="paraula"
+placeholder="A veure què tens..."
+autocomplete="off"
+>
+
+<button onclick="comprovarParaula()">
+Provar
+</button>
+
+</div>
+
+<div id="missatgeP"></div>
+
+<div id="llista" class="llista-paraules"></div>
+
+<div style="margin-top:18px">
+
+<b>
+Paraules trobades:
+<span id="comptador">0</span>/8
+</b>
+
+</div>
+
+</div>
+
+<button
+id="b3"
+style="display:none;margin-top:20px"
+onclick="anar(4)"
+>
+
+He trobat prou paraules →
+
+</button>
+
+</div>
+
+</section>
+
+
+<!-- ===================== -->
+<!-- ROBOT DREAMS -->
+<!-- ===================== -->
+
+<section id="s4" class="pantalla">
+
+<div class="progress">
+<span class="dot ok"></span>
+<span class="dot ok"></span>
+<span class="dot ok"></span>
+<span class="dot ok"></span>
+<span class="dot"></span>
+<span class="dot"></span>
+<span class="dot"></span>
+<span class="dot"></span>
+</div>
+
+<div class="capsa">
+
+<h2>Missió 4 · Robot Dreams 🤖</h2>
+
+<p>
+
+Ara toca una de les meves referències preferides.
+
+Sabent que t'encanta <b>Robot Dreams</b> espero que aquest petit joc t'agradi.
+
+Aquí valoro la velocitat, no com a la peli.
+És broma.
+
+</p>
+
+<div class="robot-box">
+
+<div class="robot-escena">
+🐶 🤖 💿 🌇
+</div>
+
+<h3>
+La memòria del robot
+</h3>
+
+<p>
+
+He amagat quatre símbols.
+Has de trobar les <b>parelles</b>.
+
+És molt senzill.
+
+Només has de recordar on està cada cosa.
+
+</p>
+
+<div class="memoria" id="memoria">
+
+<button onclick="carta(0)">?</button>
+<button onclick="carta(1)">?</button>
+<button onclick="carta(2)">?</button>
+<button onclick="carta(3)">?</button>
+
+<button onclick="carta(4)">?</button>
+<button onclick="carta(5)">?</button>
+<button onclick="carta(6)">?</button>
+<button onclick="carta(7)">?</button>
+
+</div>
+
+<div id="robotMissatge" class="nota"></div>
+
+</div>
+
+<button
+id="b4"
+style="display:none;margin-top:20px"
+onclick="anar(5)"
+>
+
+Continuar 🤖 →
+
+</button>
+
+</div>
+
+</section>
+
+
+<!-- ===================== -->
+<!-- MISSIÓ 5 · PAQUITA -->
+<!-- ===================== -->
+
+<section id="s5" class="pantalla">
+
+<div class="progress">
+<span class="dot ok"></span>
+<span class="dot ok"></span>
+<span class="dot ok"></span>
+<span class="dot ok"></span>
+<span class="dot ok"></span>
+<span class="dot"></span>
+<span class="dot"></span>
+<span class="dot"></span>
+</div>
+
+<div class="capsa">
+
+<h2>
+Missió 5 · Paquita Salas 💄
+</h2>
+
+<p>
+Paquita t'ha preparat una prova molt més important que qualsevol càsting:
+<b>completar les seves frases.</b>
+</p>
+
+<div class="paquita-box">
+
+<div class="paqui-top">
+
+<h3 style="margin:0">
+📞 PS MANAGEMENT
+</h3>
+
+<div class="paqui-puntuacio">
+Encerts: <span id="paquiPunts">0</span>/5
+</div>
+
+</div>
+
+<p>
+Una paraula ha desaparegut de cada frase.
+<b>Fins que no l'encertis, no passes a la següent.</b>
+</p>
+
+<div class="paqui-frase" id="paquiFrase">
+</div>
+
+<div id="paquiOpcions" class="opcions">
+</div>
+
+<div id="paquiResultat" class="nota" style="text-align:center"></div>
+
+<div style="margin-top:18px">
+<b>
+Frase <span id="paquiRonda">1</span>/5
+</b>
+</div>
+
+</div>
+
+<button
+id="b5"
+style="display:none;margin-top:20px"
+onclick="anar(6)"
+>
+Paquita, missió completada →
+</button>
+
+</div>
+
+</section>
+
+
+<!-- ===================== -->
+<!-- MISSIÓ 6 · THE OFFICE -->
+<!-- ===================== -->
+
+<section id="s6" class="pantalla">
+
+<div class="progress">
+<span class="dot ok"></span>
+<span class="dot ok"></span>
+<span class="dot ok"></span>
+<span class="dot ok"></span>
+<span class="dot ok"></span>
+<span class="dot ok"></span>
+<span class="dot"></span>
+<span class="dot"></span>
+</div>
+
+<div class="capsa">
+
+<h2>
+Missió 6 · The Office 🏢
+</h2>
+
+<p>
+Benvinguda a Dunder Mifflin.
+Aquí només has de demostrar que coneixes una mica
+<b>la millor oficina de Scranton.</b>
+</p>
+
+<div class="office-box">
+
+<div class="office-cap">
+
+<div class="office-logo">
+DUNDER MIFFLIN
+</div>
+
+<div>
+Scranton Branch
+</div>
+
+</div>
+
+<div class="postit-office">
+
+📝 <b>TEST DE SUPERVIVÈNCIA A L'OFICINA</b><br><br>
+Tres opcions. Una resposta correcta.
+No cal pensar massa. És The Office, al cap i a la fi (i si jo he trobat la referència tu també pots).
+
+</div>
+
+<div class="office-info">
+
+<span>
+Pregunta <span id="officeRonda">1</span>/5
+</span>
+
+<span>
+Encerts: <span id="officePunts">0</span>
+</span>
+
+</div>
+
+<div class="office-joc">
+
+<div class="office-personatge" id="officePersonatge">
+👨‍💼
+</div>
+
+<div class="office-pregunta" id="officePregunta">
+</div>
+
+<div class="office-opcions" id="officeOpcions">
+</div>
+
+<div id="officeFrase" class="office-frase">
+</div>
+
+<div id="officeMissatge" class="nota">
+</div>
+
+</div>
+
+</div>
+
+<button
+id="b6"
+style="display:none;margin-top:20px"
+onclick="anar(7)"
+>
+Sortir de Scranton →
+</button>
+
+</div>
+
+</section>
+
+
+<!-- ===================== -->
+<!-- MISSIÓ 7 -->
+<!-- ===================== -->
+
+<section id="s7" class="pantalla">
+
+<div class="progress">
+<span class="dot ok"></span>
+<span class="dot ok"></span>
+<span class="dot ok"></span>
+<span class="dot ok"></span>
+<span class="dot ok"></span>
+<span class="dot ok"></span>
+<span class="dot ok"></span>
+<span class="dot"></span>
+</div>
+
+<div class="capsa">
+
+<h2>
+Missió 7 · Últim enigma 🕵️‍♀️
+</h2>
+
+<p>
+
+Has sobreviscut al Paraulògic, a un robot emocional,
+a Paquita Salas i a una oficina que no hauria de funcionar.
+
+Ara només queda una cosa.
+
+</p>
+
+<div class="enigma">
+
+<h3>
+A · R · O · M
+</h3>
+
+<p>
+
+Ordena les lletres per descobrir una paraula que descriu
+el que jo et vull enviar avui.
+
+</p>
+
+<p class="petita">
+
+Pista: no pesa res, però es pot enviar des de qualsevol lloc.
+
+</p>
+
+<input
+id="secretInput"
+placeholder="Escriu la paraula secreta..."
+style="max-width:500px"
+>
+
+<button onclick="secret()">
+Desxifrar 💌
+</button>
+
+<div id="n7" class="nota"></div>
+
+</div>
+
+<button
+id="b7"
+style="display:none"
+onclick="anar(8)"
+>
+
+Obrir el regal 🎁
+
+</button>
+
+</div>
+
+</section>
+
+
+<!-- ===================== -->
+<!-- FINAL -->
+<!-- ===================== -->
+
+<section id="s8" class="pantalla">
+
+<div class="capsa targeta-final">
+
+<div class="cor">
+💗
+</div>
+
+<h2>
+Missió completada!
+</h2>
+
+<p class="sub">
+
+Ho has aconseguit.
+
+No sé què esperava exactament de tu,
+però m'agrada que hagis arribat fins aquí.
+
+Això vol dir que els 5k estan cada vegada més a prop.
+
+</p>
+
+<div class="postit">
+
+He fet tota aquesta web només per dir-te<br>
+que espero que et milloris ràpid. 💗
+
+</div>
+
+<p class="sub">
+
+Ara seriosament:
+
+descansa, posa't còmoda i recupera't.
+
+</p>
+
+<p class="sub">
+
+Espero que aquests mini jocs t'hagin distret una mica.
+
+I si has reconegut totes les referències,
+em sembla bastant preocupant però també m'agrada.
+
+</p>
+
+<div class="secret">
+
+Ara sí que no hi ha més proves.
+
+De veritat.
+
+</div>
+
+<div class="firma">
+
+T'estimo molt,<br>
+
+Natàlia ♡
+
+</div>
+
+<p class="petita" style="margin-top:35px">
+
+P.D. Si has arribat fins aquí, ja pots presumir
+que has completat la missió secreta de Valle.
+
+</p>
+
+</div>
+
+</section>
+
+
+</main>
+
+
+<script>
+
+
+/* =========================
+   NAVEGACIÓ
+========================= */
+
+function anar(n){
+
+  document
+    .querySelectorAll('.pantalla')
+    .forEach(x=>x.classList.remove('activa'));
+
+  document
+    .getElementById('s'+n)
+    .classList.add('activa');
+
+  window.scrollTo({
+    top:0,
+    behavior:'smooth'
+  });
+
+  if(n===5){
+    iniciarPaquita();
+  }
+
+  if(n===6 && !officeIniciat){
+    iniciarOffice();
+  }
+
+}
+
+
+/* =========================
+   MISSIÓ 1
+========================= */
+
+function seq(b,ok){
+
+  if(ok){
+
+    document
+      .querySelectorAll('#s1 .opcio')
+      .forEach(x=>x.disabled=true);
+
+    b.classList.add('correcte');
+
+    n1.textContent =
+      '✨ Correcte! Comences forta. No et vull donar massa confiança, però bé.';
+
+    b1.style.display='inline-block';
+
+  }else{
+
+    b.classList.add('incorrecte');
+
+    n1.textContent =
+      '👀 Nop. Mira la seqüència un altre cop. No em facis patir tan aviat.';
+
+  }
+
+}
+
+
+/* =========================
+   MISSIÓ 2
+========================= */
+
+function num(b,v){
+
+  if(v===14){
+
+    b.classList.add('correcte');
+
+    n2.textContent =
+      '🔓 Correcte! La porta ha fet clic. Jo tampoc sé com, però funciona.';
+
+    b2.style.display='inline-block';
+
+    document
+      .querySelectorAll('#s2 .opcio')
+      .forEach(x=>x.disabled=true);
+
+  }else{
+
+    b.classList.add('incorrecte');
+
+    n2.textContent =
+      '🤨 Gairebé... torna a mirar els valors. Tinc fe en tu. Més o menys.';
+
+  }
+
+}
+
+
+/* =========================
+   PARAULÒGIC
+========================= */
+
+const bones = new Set([
+
+  'amor',
+  'mare',
+  'torre',
+  'remor',
+  'tallar',
+  'roma',
+  'rata',
+  'ratoli',
+  'terra',
+  'real',
+  'oral',
+  'aroma',
+  'remar',
+  'tremor',
+  'mortal',
+  'temor',
+  'roman',
+  'ramat',
+  'matar',
+  'rotor',
+  'motor',
+  'marta',
+  'alerta',
+  'retor'
+
+]);
+
+const permes =
+  new Set('a m r e t o l'.split(' '));
+
+let trobades = new Set();
+
+
+function afegir(l,b){
+
+  document
+    .getElementById('paraula')
+    .value += l.toLowerCase();
+
+  b.classList.add('seleccionada');
+
+  setTimeout(()=>{
+    b.classList.remove('seleccionada');
+  },180);
+
+}
+
+
+function normalitza(s){
+
+  return s
+    .toLowerCase()
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g,'')
+    .trim();
+
+}
+
+
+function comprovarParaula(){
+
+  const inp =
+    document.getElementById('paraula');
+
+  const p =
+    normalitza(inp.value);
+
+  const m =
+    document.getElementById('missatgeP');
+
+
+  if(p.length<4){
+
+    m.textContent =
+      '🐣 Això no és una paraula, és una criatura prematura.';
+
+    return;
+  }
+
+
+  if(!p.includes('r')){
+
+    m.textContent =
+      '🔴 La R és obligatòria. Ho sento, no negocio.';
+
+    return;
+  }
+
+
+  if([...p].some(x=>!permes.has(x))){
+
+    m.textContent =
+      '🚫 Aquesta lletra no està convidada a la festa.';
+
+    return;
+  }
+
+
+  if(!bones.has(p)){
+
+    m.textContent =
+      '🤨 Aquesta no me la compro. Prova’n una altra.';
+
+    return;
+  }
+
+
+  if(trobades.has(p)){
+
+    m.textContent =
+      '😏 Aquesta ja l’havies feta, espavilada.';
+
+    return;
+  }
+
+
+  trobades.add(p);
+
+  document
+    .getElementById('comptador')
+    .textContent=trobades.size;
+
+
+  const x =
+    document.createElement('span');
+
+  x.className='xip bona';
+
+  x.textContent=p;
+
+  document
+    .getElementById('llista')
+    .appendChild(x);
+
+
+  m.textContent =
+    '✨ Paraula vàlida! Mira-la, quina màquina.';
+
+  inp.value='';
+
+
+  if(trobades.size>=8){
+
+    document
+      .getElementById('b3')
+      .style.display='inline-block';
+
+    m.textContent =
+      '🏆 8 paraules! Oficialment tens massa temps lliure.';
+
+  }
+
+}
+
+
+/* =========================
+   ROBOT DREAMS
+========================= */
+
+const simbols=[
+  '🐶',
+  '🤖',
+  '💿',
+  '🌇'
+];
+
+let cartes=[
+  0,1,2,3,
+  0,1,2,3
+];
+
+cartes.sort(()=>Math.random()-.5);
+
+let primera=null;
+let segona=null;
+let bloquejat=false;
+let parelles=0;
+
+
+function carta(i){
+
+  if(bloquejat) return;
+
+  const boto=
+    document
+      .querySelectorAll('#memoria button')[i];
+
+  if(
+    boto.classList.contains('descoberta') ||
+    primera===i
+  ){
+    return;
+  }
+
+  boto.textContent=
+    simbols[cartes[i]];
+
+  boto.classList.add('descoberta');
+
+
+  if(primera===null){
+
+    primera=i;
+
+    return;
+
+  }
+
+
+  segona=i;
+
+  bloquejat=true;
+
+
+  if(cartes[primera]===cartes[segona]){
+
+    parelles++;
+
+    primera=null;
+    segona=null;
+    bloquejat=false;
+
+
+    robotMissatge.textContent=
+      parelles===4
+      ? '🤖 Has trobat totes les parelles. El robot està orgullós de tu. I jo també.'
+      : '✨ Bona! Una parella menys.';
+
+
+    if(parelles===4){
+
+      b4.style.display='inline-block';
+
+    }
+
+  }else{
+
+    robotMissatge.textContent=
+      '👀 No coincideixen. La memòria no era aquesta.';
+
+    setTimeout(()=>{
+
+      document
+        .querySelectorAll('#memoria button')[primera]
+        .textContent='?';
+
+      document
+        .querySelectorAll('#memoria button')[segona]
+        .textContent='?';
+
+      document
+        .querySelectorAll('#memoria button')[primera]
+        .classList.remove('descoberta');
+
+      document
+        .querySelectorAll('#memoria button')[segona]
+        .classList.remove('descoberta');
+
+      primera=null;
+      segona=null;
+      bloquejat=false;
+
+    },800);
+
+  }
+
+}
+
+
+/* =========================
+   MISSIÓ 5 · PAQUITA
+========================= */
+
+const paquitaFrases = [
+
+  {
+    frase:'La gente lo que no puede es ir por ahí con "los ___" de los demás.',
+    resposta:'domain',
+    opcions:['domain','jaskaj','divacel']
+  },
+
+  {
+    frase:'En "___" no vengas. Muy moderna, muy mona, pero en "___" no vengas.',
+    resposta:'peto',
+    opcions:['peto','Tinder','domain']
+  },
+
+  {
+    frase:'Me he quedado con un pedido de 3.400 "___". ¿Qué hago, me las meto por el culo una a una? ¿Víctima o verdugo? ¿Voy a "Salvados"?',
+    resposta:'divacel',
+    opcions:['divacel','domain','jaskaj']
+  },
+
+  {
+    frase:'Si eres lista, "___" da dinero. Joder si da.',
+    resposta:'el Tinder',
+    opcions:['el Tinder','el peto','los domain']
+  },
+
+  {
+    frase:'Esta foto,hoy por hoy, es una mierda como una catedral. Faltan "___"',
+    resposta:'jaskaj',
+    opcions:['jaskaj','divacel','peto']
+  }
+
+];
+
+let paquiRonda=0;
+let paquiPunts=0;
+let paquiIniciada=false;
+
+
+function iniciarPaquita(){
+
+  if(paquiIniciada) return;
+
+  paquiIniciada=true;
+  paquiRonda=0;
+  paquiPunts=0;
+
+  mostrarPaquita();
+
+}
+
+
+function mostrarPaquita(){
+
+  const actual=paquitaFrases[paquiRonda];
+
+  document.getElementById('paquiRonda').textContent=
+    paquiRonda+1;
+
+  document.getElementById('paquiPunts').textContent=
+    paquiPunts;
+
+  document.getElementById('paquiResultat').textContent='';
+
+  const fraseHTML=
+    actual.frase.replace(
+      /___/g,
+      '<span class="paqui-blank">???</span>'
+    );
+
+  document.getElementById('paquiFrase').innerHTML=
+    fraseHTML;
+
+  const contenidor=
+    document.getElementById('paquiOpcions');
+
+  contenidor.innerHTML='';
+
+  const opcions=[...actual.opcions]
+    .sort(()=>Math.random()-.5);
+
+  opcions.forEach(opcio=>{
+
+    const b=document.createElement('button');
+
+    b.className='opcio';
+
+    b.textContent=opcio;
+
+    b.onclick=()=>respostaPaquita(b,opcio);
+
+    contenidor.appendChild(b);
+
+  });
+
+}
+
+
+function respostaPaquita(b,resposta){
+
+  const actual=paquitaFrases[paquiRonda];
+
+  if(resposta===actual.resposta){
+
+    b.classList.add('correcte');
+
+    document
+      .querySelectorAll('#paquiOpcions .opcio')
+      .forEach(x=>x.disabled=true);
+
+    paquiPunts++;
+
+    document.getElementById('paquiPunts').textContent=
+      paquiPunts;
+
+    document.getElementById('paquiResultat').textContent=
+      '✨ CORRECTE! Paquita diu que així sí.';
+
+    setTimeout(()=>{
+
+      paquiRonda++;
+
+      if(paquiRonda<paquitaFrases.length){
+
+        mostrarPaquita();
+
+      }else{
+
+        document.getElementById('paquiRonda').textContent='5';
+
+        document.getElementById('paquiFrase').innerHTML=
+          '<b>🎬 CÀSTING SUPERAT!</b>';
+
+        document.getElementById('paquiOpcions').innerHTML='';
+
+        document.getElementById('paquiResultat').textContent=
+          '🏆 5/5! Paquita et fitxa ara mateix.';
+
+        document.getElementById('b5').style.display=
+          'inline-block';
+
+      }
+
+    },800);
+
+  }else{
+
+    b.classList.add('incorrecte');
+
+    document.getElementById('paquiResultat').textContent=
+      '❌ NOOO. Paquita no està contenta. Torna-ho a provar.';
+
+    setTimeout(()=>{
+
+      b.classList.remove('incorrecte');
+
+    },400);
+
+  }
+
+}
+
+
+/* =========================
+   MISSIÓ 6 · THE OFFICE
+========================= */
+
+let officeIniciat=false;
+let officeRonda=0;
+let officePunts=0;
+
+const officePreguntes=[
+
+  {
+    personatge:'👨‍💼',
+    pregunta:'Qui és el cap de la sucursal de Scranton?',
+    opcions:['Michael Scott','Jim Halpert','Stanley Hudson'],
+    resposta:'Michael Scott',
+    frase:'"That’s what she said!"'
+  },
+
+  {
+    personatge:'🧑‍💼',
+    pregunta:'Qui és conegut per fer bromes a Dwight?',
+    opcions:['Jim Halpert','Kevin Malone','Toby Flenderson'],
+    resposta:'Jim Halpert',
+    frase:'Jim mira a càmera. 👀'
+  },
+
+  {
+    personatge:'🧑‍🌾',
+    pregunta:'Qui està obsessionat amb la seguretat i les regles?',
+    opcions:['Dwight Schrute','Andy Bernard','Creed Bratton'],
+    resposta:'Dwight Schrute',
+    frase:'"Bears. Beets. Battlestar Galactica."'
+  },
+
+  {
+    personatge:'🍕',
+    pregunta:'Qui és famós per estimar molt el menjar?',
+    opcions:['Kevin Malone','Jim Halpert','Toby Flenderson'],
+    resposta:'Kevin Malone',
+    frase:'🍫 No li treguis el menjar a Kevin.'
+  },
+
+  {
+    personatge:'🎨',
+    pregunta:'Amb qui acaba casant-se Jim?',
+    opcions:['Pam Beesly','Angela Martin','Kelly Kapoor'],
+    resposta:'Pam Beesly',
+    frase:'💗 Jim + Pam. Evidentment.'
+  }
+
+];
+
+
+function iniciarOffice(){
+
+  officeIniciat=true;
+  officeRonda=0;
+  officePunts=0;
+
+  document.getElementById('officePunts').textContent='0';
+  document.getElementById('officeRonda').textContent='1';
+  document.getElementById('b6').style.display='none';
+
+  mostrarPreguntaOffice();
+
+}
+
+
+function mostrarPreguntaOffice(){
+
+  const q=officePreguntes[officeRonda];
+
+  document.getElementById('officePersonatge').textContent=
+    q.personatge;
+
+  document.getElementById('officePregunta').textContent=
+    q.pregunta;
+
+  document.getElementById('officeFrase').textContent=
+    q.frase;
+
+  document.getElementById('officeMissatge').textContent='';
+
+  const contenidor=
+    document.getElementById('officeOpcions');
+
+  contenidor.innerHTML='';
+
+  const opcions=[...q.opcions]
+    .sort(()=>Math.random()-.5);
+
+  opcions.forEach(opcio=>{
+
+    const b=document.createElement('button');
+
+    b.className='office-opcio';
+
+    b.textContent=opcio;
+
+    b.onclick=()=>respostaOffice(b,opcio);
+
+    contenidor.appendChild(b);
+
+  });
+
+}
+
+
+function respostaOffice(b,resposta){
+
+  const q=officePreguntes[officeRonda];
+
+  if(resposta===q.resposta){
+
+    b.classList.add('correcte');
+
+    document
+      .querySelectorAll('#officeOpcions .office-opcio')
+      .forEach(x=>x.disabled=true);
+
+    officePunts++;
+
+    document.getElementById('officePunts').textContent=
+      officePunts;
+
+    document.getElementById('officeMissatge').textContent=
+      [
+        '✨ Correcte! Jim estaria orgullós.',
+        '👏 Dwight t’hauria contractat.',
+        '☕ Kevin aprova aquesta resposta.',
+        '💗 Pam somriu.',
+        '🏆 Michael diu que ets "amazing".'
+      ][officeRonda];
+
+    setTimeout(()=>{
+
+      officeRonda++;
+
+      if(officeRonda<officePreguntes.length){
+
+        document.getElementById('officeRonda').textContent=
+          officeRonda+1;
+
+        mostrarPreguntaOffice();
+
+      }else{
+
+        acabarOffice();
+
+      }
+
+    },800);
+
+  }else{
+
+    b.classList.add('incorrecte');
+
+    document.getElementById('officeMissatge').textContent=
+      '❌ Nooo. Jim acaba de mirar a càmera. Torna-ho a provar.';
+
+    setTimeout(()=>{
+
+      b.classList.remove('incorrecte');
+
+    },400);
+
+  }
+
+}
+
+
+function acabarOffice(){
+
+  document.getElementById('officeRonda').textContent='5';
+
+  document.getElementById('officeOpcions').innerHTML='';
+
+  document.getElementById('officePregunta').textContent=
+    '🎬 Has sobreviscut a Dunder Mifflin!';
+
+  document.getElementById('officePersonatge').textContent=
+    '🏆';
+
+  document.getElementById('officeFrase').textContent=
+    officePunts===5
+    ? '5/5! Employee of the Month. Michael faria un discurs de 40 minuts.'
+    : officePunts+' / 5! No està malament. Toby tampoc ho hauria fet millor.';
+
+  document.getElementById('officeMissatge').textContent=
+    '✨ Missió completada!';
+
+  document.getElementById('b6').style.display=
+    'inline-block';
+
+}
+
+
+/* =========================
+   MISSIÓ 7
+========================= */
+
+function secret(){
+
+  const v=
+    document
+      .getElementById('secretInput')
+      .value
+      .toLowerCase()
+      .trim();
+
+  if(v==='amor'){
+
+    n7.textContent=
+      '💗 Correcte. Era amor. Tampoc és que ho volgués amagar gaire.';
+
+    b7.style.display='inline-block';
+
+  }else{
+
+    n7.textContent=
+      '👀 Nope. Ordena A · R · O · M una altra vegada.';
+
+  }
+
+}
+
+</script>
+
+</body>
+</html>
