@@ -1,0 +1,3202 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<link rel="icon" type="image/png" href="uno.png">
+<title>17/09/2026 - Per la Valle</title>
+
+<style>
+
+/* =========================================================
+   RESET
+========================================================= */
+
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+    -webkit-tap-highlight-color:transparent;
+}
+
+html,body{
+    width:100%;
+    height:100%;
+    overflow:hidden;
+}
+
+body{
+    font-family:Georgia,"Times New Roman",serif;
+    background:radial-gradient(circle at center,#faf3e8 0%,#e4d3bb 100%);
+    color:#2e2925;
+}
+
+
+/* =========================================================
+   SOBRE
+========================================================= */
+
+.scene{
+    position:relative;
+    width:100vw;
+    height:100dvh;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    perspective:1800px;
+    overflow:hidden;
+}
+
+.scene::before{
+    content:"";
+    position:absolute;
+    width:90vw;
+    height:90vw;
+    max-width:900px;
+    max-height:900px;
+    border-radius:50%;
+    background:rgba(255,255,255,.32);
+    filter:blur(90px);
+    pointer-events:none;
+}
+
+.envelope-wrapper{
+    position:relative;
+    width:calc(100vw - 24px);
+    height:calc(100dvh - 24px);
+    transform-style:preserve-3d;
+    transition:transform 1.55s cubic-bezier(.22,.61,.36,1);
+    z-index:5;
+}
+
+.envelope-wrapper.flipped{
+    transform:rotateY(180deg);
+}
+
+.envelope{
+    position:absolute;
+    inset:0;
+    border-radius:14px;
+    backface-visibility:hidden;
+    -webkit-backface-visibility:hidden;
+    transform-style:preserve-3d;
+    overflow:hidden;
+}
+
+.front{
+    background:linear-gradient(135deg,#f8edde 0%,#ead7bb 100%);
+    box-shadow:
+        0 35px 90px rgba(62,43,25,.27),
+        inset 0 0 0 1px rgba(90,60,35,.16);
+}
+
+.front::after{
+    content:"";
+    position:absolute;
+    left:0;
+    right:0;
+    bottom:0;
+    height:64%;
+    background:linear-gradient(150deg,#ead6b9,#dfc7a6);
+    clip-path:polygon(0 0,50% 62%,100% 0,100% 100%,0 100%);
+}
+
+.front::before{
+    content:"";
+    position:absolute;
+    left:0;
+    right:0;
+    top:0;
+    height:57%;
+    background:linear-gradient(160deg,#f8ecdb,#f0dfc6);
+    clip-path:polygon(0 0,100% 0,50% 100%);
+    filter:drop-shadow(0 5px 5px rgba(60,40,20,.13));
+    z-index:3;
+}
+
+.recipient{
+    position:absolute;
+    left:50%;
+    top:51%;
+    transform:translate(-50%,-50%);
+    z-index:10;
+    width:100%;
+    text-align:center;
+    font-size:clamp(48px,14vw,105px);
+    color:#463629;
+    white-space:nowrap;
+    letter-spacing:.035em;
+    font-style:italic;
+    text-shadow:
+        0 2px 0 rgba(255,255,255,.45),
+        0 8px 20px rgba(60,40,20,.10);
+}
+
+
+/* =========================================================
+   TÍTULO DEL SEGUNDO SOBRE
+========================================================= */
+
+.recipient.second-title{
+    font-size:clamp(32px,8vw,72px);
+    line-height:1.1;
+    white-space:normal;
+    width:min(90%,900px);
+}
+
+
+/* =========================================================
+   BOTONES DE LA PANTALLA FINAL DEL SOBRE
+========================================================= */
+
+.detailed-button,
+.poem-button,
+.restart-button{
+
+    position:absolute;
+    z-index:20;
+
+    bottom:24px;
+
+    border:1px solid rgba(80,55,35,.22);
+    border-radius:999px;
+
+    /* CAMBIO: botones un poco más grandes */
+    padding:10px 18px;
+
+    background:rgba(255,250,242,.58);
+    color:rgba(70,50,35,.68);
+
+    font-family:Georgia,"Times New Roman",serif;
+
+    /* CAMBIO: texto un poco más grande */
+    font-size:14px;
+
+    cursor:pointer;
+
+    opacity:0;
+    visibility:hidden;
+    pointer-events:none;
+
+    box-shadow:0 4px 12px rgba(60,40,20,.08);
+
+    transition:
+        opacity .8s ease,
+        background .2s ease,
+        transform .2s ease;
+}
+
+/* IZQUIERDA */
+.poem-button{
+    left:24px;
+}
+
+/* CENTRO */
+.detailed-button{
+    left:50%;
+    transform:translateX(-50%);
+}
+
+/* DERECHA */
+.restart-button{
+    right:24px;
+}
+
+.detailed-button.show,
+.poem-button.show,
+.restart-button.show{
+    opacity:1;
+    visibility:visible;
+    pointer-events:auto;
+}
+
+.detailed-button:hover,
+.poem-button:hover,
+.restart-button:hover{
+    background:rgba(255,250,242,.82);
+}
+
+.poem-button:hover{
+    transform:translateY(-1px);
+}
+
+.detailed-button:hover{
+    transform:translateX(-50%) translateY(-1px);
+}
+
+.restart-button:hover{
+    transform:translateY(-1px);
+}
+
+.detailed-button:active,
+.poem-button:active,
+.restart-button:active{
+    transform:scale(.95);
+}
+
+.detailed-button:active{
+    transform:translateX(-50%) scale(.95);
+}
+
+
+/* =========================================================
+   PARTE TRASERA
+========================================================= */
+
+.back{
+    transform:rotateY(180deg);
+    background:linear-gradient(135deg,#ead7bb,#ddc3a0);
+    box-shadow:
+        0 35px 90px rgba(62,43,25,.27),
+        inset 0 0 0 1px rgba(90,60,35,.16);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+}
+
+.back::before{
+    content:"";
+    position:absolute;
+    inset:4%;
+    border:1px solid rgba(100,70,40,.10);
+    border-radius:10px;
+}
+
+.back-content{
+    position:relative;
+    z-index:10;
+    width:100%;
+    height:100%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    opacity:0;
+    transform:scale(.72);
+    transition:opacity .7s ease,transform .8s cubic-bezier(.2,.8,.2,1);
+}
+
+.envelope-wrapper.flipped .back-content{
+    opacity:1;
+    transform:scale(1);
+    transition-delay:1.25s;
+}
+
+.open-area{
+    position:relative;
+    width:min(82vw,620px);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+}
+
+.open-button{
+    position:relative;
+    z-index:5;
+    width:min(70vw,470px);
+    min-height:clamp(110px,17vh,180px);
+    border:none;
+    border-radius:999px;
+    background:linear-gradient(135deg,#721725 0%,#a72c3d 50%,#c23c4e 100%);
+    color:white;
+    font-family:Georgia,"Times New Roman",serif;
+    font-size:clamp(38px,10vw,72px);
+    font-weight:bold;
+    letter-spacing:.05em;
+    cursor:pointer;
+    box-shadow:
+        0 20px 45px rgba(91,20,32,.35),
+        0 0 0 8px rgba(255,255,255,.32),
+        0 0 35px rgba(190,45,65,.55),
+        0 0 80px rgba(190,45,65,.25);
+    animation:megaPulse 1.6s infinite ease-in-out;
+}
+
+.open-button:active{
+    transform:scale(.93);
+}
+
+@keyframes megaPulse{
+    0%,100%{transform:scale(1)}
+    50%{transform:scale(1.045)}
+}
+
+.arrows{
+    position:absolute;
+    left:50%;
+    top:50%;
+    transform:translate(-50%,-50%);
+    width:120%;
+    display:flex;
+    justify-content:space-between;
+    pointer-events:none;
+    z-index:2;
+}
+
+.arrow{
+    font-family:Arial,sans-serif;
+    font-size:clamp(55px,14vw,110px);
+    font-weight:900;
+    color:#721725;
+    animation:arrowBounce .75s infinite alternate ease-in-out;
+}
+
+.arrow.right{
+    animation-delay:.15s;
+}
+
+@keyframes arrowBounce{
+    from{
+        transform:translateX(0) scale(.95);
+        opacity:.7
+    }
+    to{
+        transform:translateX(18px) scale(1.08);
+        opacity:1
+    }
+}
+
+
+/* =========================================================
+   NO EL VULL
+========================================================= */
+
+.no-button{
+    position:fixed;
+    z-index:50;
+    padding:6px 11px;
+    border:1px solid rgba(80,60,40,.20);
+    border-radius:30px;
+    background:rgba(255,255,255,.38);
+    color:rgba(60,45,30,.52);
+    font-family:inherit;
+    font-size:10px;
+    cursor:pointer;
+    opacity:0;
+    pointer-events:none;
+}
+
+.envelope-wrapper.flipped ~ .no-button{
+    opacity:1;
+    pointer-events:auto;
+    transition:opacity .5s ease 1.4s;
+}
+
+
+/* =========================================================
+   MODAL
+========================================================= */
+
+.modal-overlay{
+    position:fixed;
+    inset:0;
+    z-index:100;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:25px;
+    background:rgba(35,25,18,.58);
+    backdrop-filter:blur(7px);
+    opacity:0;
+    pointer-events:none;
+    transition:opacity .3s ease;
+}
+
+.modal-overlay.show{
+    opacity:1;
+    pointer-events:auto;
+}
+
+.modal{
+    width:min(90vw,420px);
+    padding:40px 30px 30px;
+    text-align:center;
+    background:linear-gradient(145deg,#fffaf3,#eee0cc);
+    border-radius:22px;
+    box-shadow:0 35px 90px rgba(0,0,0,.35);
+}
+
+.modal h2{
+    margin-bottom:12px;
+    font-size:30px;
+    color:#6e1c29;
+}
+
+.modal p{
+    margin-bottom:27px;
+    font-size:18px;
+    line-height:1.5;
+    color:#594a3d;
+}
+
+.close-modal{
+    border:none;
+    padding:12px 28px;
+    border-radius:30px;
+    background:#6e1c29;
+    color:white;
+    font-family:inherit;
+    font-size:15px;
+    cursor:pointer;
+}
+
+
+/* =========================================================
+   FOTOS
+========================================================= */
+
+.photo-screen{
+    position:fixed;
+    inset:0;
+    z-index:200;
+    background:#111;
+    overflow:hidden;
+    opacity:0;
+    pointer-events:none;
+    transition:opacity 1s ease;
+}
+
+.photo-screen.show{
+    opacity:1;
+    pointer-events:auto;
+}
+
+.memory{
+    position:absolute;
+    inset:0;
+    width:100%;
+    height:100%;
+    opacity:0;
+    pointer-events:none;
+    transform:translateX(3%) scale(1.015);
+    transition:
+        transform 1.5s cubic-bezier(.25,.46,.45,.94),
+        opacity 1.25s ease;
+}
+
+.memory.active{
+    opacity:1;
+    transform:translateX(0) scale(1);
+}
+
+.memory img{
+    position:absolute;
+    inset:0;
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    object-position:center;
+}
+
+.memory::after{
+    content:"";
+    position:absolute;
+    inset:0;
+    background:linear-gradient(
+        to bottom,
+        rgba(0,0,0,.02) 20%,
+        rgba(0,0,0,.06) 45%,
+        rgba(0,0,0,.78) 100%
+    );
+    pointer-events:none;
+}
+
+.memory.walking-out{
+    opacity:0;
+    transform:translateX(-3%) scale(1.01);
+}
+
+.photo-message{
+    position:absolute;
+    z-index:5;
+    left:50%;
+    bottom:8%;
+    width:min(96vw,1000px);
+    transform:translate(-50%,25px);
+    padding:0 8px;
+    text-align:center;
+    color:white;
+    font-size:clamp(25px,6vw,44px);
+    line-height:1.22;
+    font-style:italic;
+    text-shadow:
+        0 2px 5px rgba(0,0,0,.65),
+        0 5px 25px rgba(0,0,0,.5);
+    opacity:0;
+    transition:
+        opacity 1s ease .5s,
+        transform 1s ease .5s;
+}
+
+.memory.active .photo-message{
+    opacity:1;
+    transform:translate(-50%,0);
+}
+
+
+/* =========================================================
+   TERCERA PANTALLA
+========================================================= */
+
+.memory-three{
+    position:absolute;
+    inset:0;
+    display:grid;
+    grid-template-columns:50% 50%;
+    background:#eee2d1;
+    overflow:hidden;
+}
+
+.third-image{
+    position:relative;
+    width:100%;
+    height:100%;
+    overflow:hidden;
+    background:#d8c6ae;
+}
+
+.third-image img{
+    position:absolute;
+    top:0;
+    left:0;
+    width:100%;
+    height:auto;
+    transform:translateY(0);
+
+    --third-scroll-distance:0px;
+    --third-scroll-duration:10s;
+
+    animation-name:thirdImageScroll;
+    animation-duration:var(--third-scroll-duration);
+    animation-timing-function:ease-in-out;
+    animation-iteration-count:infinite;
+    animation-direction:alternate;
+
+    will-change:transform;
+}
+
+@keyframes thirdImageScroll{
+    0%{transform:translateY(0);}
+    100%{transform:translateY(var(--third-scroll-distance));}
+}
+
+.third-text{
+    position:relative;
+    z-index:10;
+    height:100%;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    padding:clamp(30px,4vh,45px) clamp(45px,5vw,75px) clamp(70px,6vh,80px);
+    background:linear-gradient(135deg,#f8eee0,#ead8be);
+    color:#45372c;
+    overflow:hidden;
+}
+
+.long-message{
+    width:100%;
+    font-size:clamp(14px,1.45vw,18px);
+    line-height:1.32;
+    text-align:justify;
+    color:#46392e;
+    overflow:hidden;
+    padding:8px 5px;
+}
+
+.long-message p{
+    margin-bottom:.5em;
+}
+
+.continue-container{
+    position:absolute;
+    z-index:30;
+    bottom:20px;
+    right:20px;
+    width:auto;
+    display:flex;
+    justify-content:flex-end;
+    pointer-events:none;
+}
+
+.continue-button{
+    pointer-events:auto;
+    border:none;
+    padding:8px 18px;
+    border-radius:999px;
+    background:linear-gradient(135deg,#721725,#a72c3d,#c23c4e);
+    color:white;
+    font-family:Georgia,"Times New Roman",serif;
+    font-size:14px;
+    font-weight:bold;
+    cursor:pointer;
+    box-shadow:0 8px 22px rgba(91,20,32,.35);
+}
+
+.continue-button:active{
+    transform:scale(.94);
+}
+
+
+/* =========================================================
+   CARTA FINAL
+========================================================= */
+
+.blank-screen{
+    position:fixed;
+    inset:0;
+    z-index:1000;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    overflow-y:auto;
+    overflow-x:hidden;
+
+    padding:clamp(14px,4vw,55px);
+
+    background:
+        radial-gradient(circle at center,rgba(255,255,255,.35) 0%,rgba(255,255,255,0) 65%),
+        linear-gradient(135deg,#f8edde 0%,#ead7bb 100%);
+
+    opacity:0;
+    visibility:hidden;
+    pointer-events:none;
+
+    transition:
+        opacity .8s ease,
+        visibility 0s linear .8s;
+}
+
+.blank-screen.show{
+    opacity:1;
+    visibility:visible;
+    pointer-events:auto;
+
+    transition:
+        opacity .8s ease,
+        visibility 0s linear 0s;
+}
+
+.letter{
+    position:relative;
+    width:min(760px,88vw);
+    min-height:min(88dvh,850px);
+    height:auto;
+
+    padding:
+        clamp(38px,6vh,65px)
+        clamp(30px,6vw,65px)
+        45px;
+
+    overflow:visible;
+
+    background:
+        linear-gradient(135deg,#fffaf2 0%,#f8eee0 48%,#f2e2ce 100%);
+
+    border:1px solid rgba(105,75,45,.13);
+
+    box-shadow:
+        0 25px 70px rgba(70,45,25,.22),
+        0 5px 18px rgba(70,45,25,.08);
+
+    transform:translateY(35px) scale(.97);
+    opacity:0;
+
+    transition:
+        transform 1s cubic-bezier(.2,.8,.2,1),
+        opacity .8s ease;
+}
+
+.letter::before{
+    content:"";
+    position:absolute;
+    inset:16px;
+    border:1px solid rgba(105,75,45,.12);
+    pointer-events:none;
+}
+
+.letter::after{
+    content:"✦";
+    position:absolute;
+    top:24px;
+    left:50%;
+    transform:translateX(-50%);
+    color:#8b6470;
+    font-size:18px;
+    opacity:.7;
+}
+
+.blank-screen.show .letter{
+    transform:translateY(0) scale(1);
+    opacity:1;
+}
+
+.blank-screen.closing{
+    pointer-events:none;
+}
+
+.blank-screen.closing .letter{
+    animation:closeLetter 1.4s cubic-bezier(.65,0,.35,1) forwards;
+}
+
+@keyframes closeLetter{
+    0%{
+        transform:translateY(0) scale(1) rotateX(0deg);
+        opacity:1;
+    }
+
+    25%{
+        transform:translateY(-10px) scale(.98) rotateX(8deg);
+        opacity:1;
+    }
+
+    55%{
+        transform:translateY(20px) scale(.72) rotateX(35deg);
+        opacity:1;
+    }
+
+    80%{
+        transform:translateY(80px) scale(.38) rotateX(70deg);
+        opacity:.9;
+    }
+
+    100%{
+        transform:translateY(180px) scale(.08) rotateX(85deg);
+        opacity:0;
+    }
+}
+
+.letter-content{
+    position:relative;
+    z-index:2;
+    width:100%;
+    height:auto;
+    min-height:100%;
+    display:flex;
+    flex-direction:column;
+    justify-content:flex-start;
+    padding-bottom:10px;
+}
+
+.letter-title{
+    margin-bottom:clamp(20px,3vh,32px);
+    text-align:center;
+    color:#6e1c29;
+    font-size:clamp(22px,3vw,34px);
+    font-weight:normal;
+    font-style:italic;
+    letter-spacing:.03em;
+}
+
+.letter-text{
+    color:#493b31;
+    font-size:clamp(15px,1.45vw,19px);
+    line-height:1.55;
+    text-align:justify;
+    max-height:none;
+    overflow:visible;
+}
+
+.letter-text p{
+    margin-bottom:1em;
+}
+
+.letter-text p:last-child{
+    margin-bottom:0;
+}
+
+.letter-sign{
+    margin-top:clamp(18px,3vh,30px);
+    text-align:right;
+    color:#6e1c29;
+    font-size:clamp(15px,1.5vw,20px);
+    font-style:italic;
+}
+
+.robot-dreams-final{
+    margin-top:clamp(18px,3vh,30px);
+    padding-bottom:0;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+}
+
+.robot-dreams-final img{
+    display:block;
+    width:min(170px,32vw);
+    max-height:125px;
+    object-fit:contain;
+    border-radius:10px;
+}
+
+.robot-dreams-caption{
+    margin-top:7px;
+    color:#6e1c29;
+    font-family:Georgia,"Times New Roman",serif;
+    font-size:13px;
+    font-style:italic;
+    opacity:.75;
+}
+
+.close-envelope-container{
+    position:relative;
+    z-index:20;
+    width:100%;
+    display:flex;
+    justify-content:center;
+    margin-top:24px;
+}
+
+.close-envelope-button{
+    border:none;
+    padding:11px 22px;
+    border-radius:999px;
+    background:linear-gradient(135deg,#721725,#a72c3d,#c23c4e);
+    color:white;
+    font-family:Georgia,"Times New Roman",serif;
+    font-size:clamp(12px,2.5vw,16px);
+    font-weight:bold;
+    cursor:pointer;
+    box-shadow:0 8px 22px rgba(91,20,32,.35);
+    transition:
+        transform .2s ease,
+        box-shadow .2s ease;
+    max-width:100%;
+}
+
+.close-envelope-button:hover{
+    transform:translateY(-2px);
+    box-shadow:0 12px 28px rgba(91,20,32,.4);
+}
+
+.close-envelope-button:active{
+    transform:scale(.94);
+}
+
+
+/* =========================================================
+   PANTALLA EXPLICACIÓN DETALLADA
+========================================================= */
+
+.detailed-screen{
+    position:fixed;
+    inset:0;
+    z-index:2000;
+
+    display:flex;
+    flex-direction:column;
+
+    overflow-y:auto;
+    overflow-x:hidden;
+
+    padding:clamp(22px,4vh,45px) clamp(14px,3vw,45px);
+
+    background:
+        radial-gradient(circle at center,rgba(255,255,255,.35) 0%,rgba(255,255,255,0) 68%),
+        linear-gradient(135deg,#f8edde 0%,#ead7bb 100%);
+
+    color:#45372c;
+
+    opacity:0;
+    visibility:hidden;
+    pointer-events:none;
+
+    transition:
+        opacity .7s ease,
+        visibility 0s linear .7s;
+}
+
+.detailed-screen.show{
+    opacity:1;
+    visibility:visible;
+    pointer-events:auto;
+
+    transition:
+        opacity .7s ease,
+        visibility 0s linear 0s;
+}
+
+.detailed-header{
+    flex:0 0 auto;
+    text-align:center;
+    padding:8px 10px clamp(20px,3vh,35px);
+}
+
+.detailed-header h1{
+    margin:0;
+    color:#6e1c29;
+    font-size:clamp(25px,4vw,42px);
+    font-weight:normal;
+    font-style:italic;
+    letter-spacing:.025em;
+}
+
+
+/* =========================================================
+   BOTÓN VOLVER EXPLICACIÓN
+========================================================= */
+
+.detail-back-button,
+.poem-back-button{
+
+    position:fixed;
+
+    top:22px;
+    left:22px;
+
+    z-index:2100;
+
+    width:44px;
+    height:44px;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    border:1px solid rgba(80,55,35,.18);
+    border-radius:50%;
+
+    background:rgba(255,250,242,.72);
+
+    color:#6e1c29;
+
+    font-family:Arial,sans-serif;
+    font-size:27px;
+    line-height:1;
+
+    cursor:pointer;
+
+    box-shadow:0 5px 16px rgba(60,40,20,.10);
+
+    transition:
+        background .2s ease,
+        transform .2s ease;
+}
+
+.detail-back-button:hover,
+.poem-back-button:hover{
+    background:rgba(255,250,242,.95);
+    transform:translateX(-2px);
+}
+
+.detail-back-button:active,
+.poem-back-button:active{
+    transform:scale(.92);
+}
+
+
+/* =========================================================
+   CAJAS EXPLICACIÓN
+========================================================= */
+
+.detailed-grid{
+    flex:0 0 auto;
+
+    width:min(92%,1050px);
+
+    margin-left:auto;
+    margin-right:auto;
+
+    display:grid;
+    grid-template-columns:1fr 1fr;
+
+    gap:clamp(12px,1.8vw,20px);
+
+    align-items:stretch;
+
+    padding-bottom:25px;
+}
+
+.detailed-column{
+    display:grid;
+    grid-template-rows:repeat(8,minmax(0,1fr));
+
+    gap:clamp(8px,1vw,14px);
+
+    min-width:0;
+}
+
+.detail-box{
+    min-height:110px;
+
+    display:flex;
+    align-items:center;
+    justify-content:flex-start;
+
+    padding:clamp(16px,2vw,24px);
+
+    background:rgba(255,250,242,.72);
+
+    border:1px solid rgba(105,75,45,.13);
+
+    box-shadow:
+        0 8px 22px rgba(70,45,25,.08),
+        inset 0 0 0 1px rgba(255,255,255,.28);
+
+    border-radius:10px;
+}
+
+.detail-box p{
+    width:100%;
+    margin:0;
+
+    color:#493b31;
+
+    font-size:clamp(15px,1.5vw,20px);
+
+    line-height:1.5;
+}
+
+.poem-column .detail-box p{
+    text-align:left;
+}
+
+.explanation-column .detail-box{
+    background:rgba(248,238,224,.62);
+}
+
+.explanation-column .detail-box p{
+    color:#725f4e;
+    font-style:italic;
+    text-align:left;
+}
+
+
+/* =========================================================
+   NUEVA PANTALLA — POESÍA COMPLETA
+========================================================= */
+
+.poem-screen{
+
+    position:fixed;
+    inset:0;
+
+    z-index:3000;
+
+    display:flex;
+    align-items:flex-start;
+    justify-content:center;
+
+    overflow-y:auto;
+    overflow-x:hidden;
+
+    padding:
+        clamp(95px,12vh,135px)
+        clamp(20px,5vw,70px)
+        clamp(55px,7vh,85px);
+
+    background:
+        radial-gradient(
+            circle at center,
+            rgba(255,255,255,.38) 0%,
+            rgba(255,255,255,0) 68%
+        ),
+        linear-gradient(
+            135deg,
+            #f8edde 0%,
+            #ead7bb 100%
+        );
+
+    color:#45372c;
+
+    opacity:0;
+    visibility:hidden;
+    pointer-events:none;
+
+    transition:
+        opacity .7s ease,
+        visibility 0s linear .7s;
+}
+
+.poem-screen.show{
+
+    opacity:1;
+    visibility:visible;
+    pointer-events:auto;
+
+    transition:
+        opacity .7s ease,
+        visibility 0s linear 0s;
+}
+
+
+/* =========================================================
+   PAPEL DEL POEMA
+========================================================= */
+
+.poem-paper{
+
+    position:relative;
+
+    width:min(780px,92vw);
+
+    padding:
+        clamp(55px,8vh,85px)
+        clamp(32px,6vw,70px)
+        clamp(50px,7vh,75px);
+
+    background:
+        linear-gradient(
+            135deg,
+            #fffaf2 0%,
+            #f8eee0 48%,
+            #f2e2ce 100%
+        );
+
+    border:1px solid rgba(105,75,45,.13);
+
+    box-shadow:
+        0 25px 70px rgba(70,45,25,.22),
+        0 5px 18px rgba(70,45,25,.08);
+
+    min-height:auto;
+}
+
+.poem-paper::before{
+
+    content:"";
+
+    position:absolute;
+
+    inset:16px;
+
+    border:1px solid rgba(105,75,45,.12);
+
+    pointer-events:none;
+}
+
+
+/* =========================================================
+   TÍTULO DEL POEMA
+========================================================= */
+
+.poem-title{
+
+    position:relative;
+    z-index:2;
+
+    margin-bottom:clamp(35px,5vh,50px);
+
+    text-align:center;
+
+    color:#6e1c29;
+
+    font-size:clamp(25px,4vw,38px);
+
+    font-weight:normal;
+
+    font-style:italic;
+
+    line-height:1.25;
+
+    letter-spacing:.025em;
+}
+
+
+/* =========================================================
+   TEXTO POEMA
+========================================================= */
+
+.poem-text{
+
+    position:relative;
+    z-index:2;
+
+    color:#493b31;
+
+    font-size:clamp(17px,2vw,22px);
+
+    line-height:1.65;
+
+    text-align:center;
+
+    white-space:normal;
+}
+
+.poem-stanza{
+
+    margin-bottom:clamp(24px,4vh,34px);
+}
+
+.poem-stanza:last-child{
+
+    margin-bottom:0;
+}
+
+.poem-final-quote{
+
+    margin-top:clamp(30px,5vh,45px);
+
+    color:#6e1c29;
+
+    font-style:italic;
+
+    font-size:clamp(15px,1.7vw,19px);
+
+    line-height:1.55;
+}
+
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media(min-width:700px){
+
+    .envelope-wrapper{
+        width:calc(100vw - 80px);
+        height:calc(100vh - 80px);
+    }
+
+    .long-message{
+        font-size:clamp(14px,1.45vw,18px);
+        line-height:1.32;
+        padding:8px 5px;
+        overflow:hidden;
+    }
+
+    .continue-container{
+        bottom:20px;
+        right:20px;
+    }
+
+    .continue-button{
+        font-size:14px;
+        padding:8px 18px;
+    }
+}
+
+
+/* =========================================================
+   MÓVIL
+========================================================= */
+
+@media(max-width:699px){
+
+    .memory-three{
+        grid-template-columns:44% 56%;
+    }
+
+    .third-text{
+        padding:20px 25px 65px;
+    }
+
+    .long-message{
+        font-size:clamp(13px,3.5vw,17px);
+        line-height:1.28;
+        padding:8px 4px;
+        overflow:hidden;
+    }
+
+    .continue-container{
+        bottom:15px;
+        right:15px;
+    }
+
+    .continue-button{
+        font-size:15px;
+        padding:9px 18px;
+    }
+
+    .photo-message{
+        width:96vw;
+        padding:0 4px;
+        font-size:clamp(23px,6vw,38px);
+        line-height:1.2;
+    }
+
+    .blank-screen{
+        align-items:flex-start;
+        padding:14px;
+    }
+
+    .letter{
+        width:92vw;
+        min-height:92dvh;
+        height:auto;
+        padding:35px 25px 40px;
+        border-radius:3px;
+        overflow:visible;
+    }
+
+    .letter::before{
+        inset:10px;
+    }
+
+    .letter::after{
+        top:17px;
+        font-size:14px;
+    }
+
+    .letter-content{
+        min-height:0;
+        height:auto;
+        padding-bottom:5px;
+    }
+
+    .letter-title{
+        margin-bottom:18px;
+        font-size:24px;
+    }
+
+    .letter-text{
+        font-size:14px;
+        line-height:1.43;
+        text-align:left;
+        max-height:none;
+        overflow:visible;
+    }
+
+    .letter-text p{
+        margin-bottom:.75em;
+    }
+
+    .letter-sign{
+        margin-top:18px;
+        font-size:15px;
+    }
+
+    .robot-dreams-final{
+        margin-top:18px;
+        padding-bottom:0;
+    }
+
+    .robot-dreams-final img{
+        width:135px;
+        max-height:100px;
+    }
+
+    .robot-dreams-caption{
+        font-size:12px;
+    }
+
+    .close-envelope-container{
+        margin-top:22px;
+        width:100%;
+    }
+
+    .close-envelope-button{
+        max-width:88vw;
+        padding:10px 17px;
+        line-height:1.2;
+    }
+
+
+    /* =====================================================
+       LOS TRES BOTONES DEL SEGUNDO SOBRE
+       CAMBIO: UN POCO MÁS GRANDES
+    ===================================================== */
+
+    .detailed-button,
+    .poem-button,
+    .restart-button{
+        bottom:16px;
+
+        /* Antes: 7px 10px */
+        padding:10px 13px;
+
+        /* Antes: 10px */
+        font-size:12px;
+    }
+
+    .poem-button{
+        left:10px;
+    }
+
+    .detailed-button{
+        left:50%;
+    }
+
+    .restart-button{
+        right:10px;
+    }
+
+
+    .detail-back-button,
+    .poem-back-button{
+        top:14px;
+        left:14px;
+        width:40px;
+        height:40px;
+        font-size:24px;
+    }
+
+    .detailed-grid{
+        width:94%;
+        gap:7px;
+    }
+
+    .detailed-column{
+        gap:7px;
+    }
+
+    .detail-box{
+        min-height:125px;
+        padding:13px 10px;
+    }
+
+    .detail-box p{
+        font-size:14px;
+        line-height:1.4;
+    }
+
+    /* =====================================================
+       POEMA EN MÓVIL
+    ===================================================== */
+
+    .poem-screen{
+
+        padding:
+            78px
+            14px
+            45px;
+    }
+
+    .poem-paper{
+
+        width:94vw;
+
+        padding:
+            48px
+            24px
+            42px;
+    }
+
+    .poem-paper::before{
+        inset:10px;
+    }
+
+    .poem-title{
+
+        margin-bottom:32px;
+
+        font-size:25px;
+        line-height:1.25;
+    }
+
+    .poem-text{
+
+        font-size:16px;
+
+        line-height:1.58;
+
+        text-align:center;
+    }
+
+    .poem-stanza{
+
+        margin-bottom:25px;
+    }
+
+    .poem-final-quote{
+
+        margin-top:30px;
+
+        font-size:14px;
+
+        line-height:1.5;
+    }
+
+    /* =====================================================
+       SEGUNDO SOBRE EN MÓVIL
+    ===================================================== */
+
+    .recipient.second-title{
+        width:88%;
+        font-size:clamp(30px,8vw,55px);
+        line-height:1.08;
+        white-space:normal;
+    }
+}
+
+
+/* =========================================================
+   PANTALLAS BAJAS
+========================================================= */
+
+@media(max-height:650px){
+
+    .open-button{
+        min-height:90px;
+        font-size:38px;
+    }
+
+    .third-text{
+        padding:12px 18px 55px;
+    }
+
+    .long-message{
+        font-size:12px;
+        line-height:1.22;
+        overflow:hidden;
+    }
+
+    .continue-button{
+        font-size:13px;
+        padding:7px 15px;
+    }
+
+    .blank-screen{
+        align-items:flex-start;
+        padding:10px;
+    }
+
+    .letter{
+        min-height:94dvh;
+        height:auto;
+        padding:28px 30px 35px;
+        overflow:visible;
+    }
+
+    .letter-title{
+        margin-bottom:12px;
+        font-size:22px;
+    }
+
+    .letter-text{
+        font-size:13px;
+        line-height:1.32;
+        max-height:none;
+        overflow:visible;
+    }
+
+    .letter-text p{
+        margin-bottom:.55em;
+    }
+
+    .letter-sign{
+        margin-top:12px;
+    }
+
+    .robot-dreams-final{
+        margin-top:12px;
+        padding-bottom:0;
+    }
+
+    .robot-dreams-final img{
+        width:110px;
+        max-height:75px;
+    }
+
+    .robot-dreams-caption{
+        font-size:11px;
+        margin-top:4px;
+    }
+
+    .close-envelope-container{
+        margin-top:18px;
+    }
+
+    .close-envelope-button{
+        font-size:12px;
+        padding:7px 13px;
+    }
+
+    .photo-message{
+        width:96vw;
+        padding:0 3px;
+        font-size:clamp(21px,5.8vw,34px);
+        line-height:1.18;
+    }
+
+    .detailed-grid{
+        width:94%;
+    }
+
+    .detail-box{
+        min-height:105px;
+        padding:10px;
+    }
+
+    .detail-box p{
+        font-size:13px;
+        line-height:1.32;
+    }
+
+
+    /* =====================================================
+       POEMA EN PANTALLAS BAJAS
+    ===================================================== */
+
+    .poem-screen{
+        padding:
+            65px
+            12px
+            35px;
+    }
+
+    .poem-paper{
+        width:95vw;
+        padding:
+            40px
+            20px
+            35px;
+    }
+
+    .poem-title{
+        margin-bottom:27px;
+        font-size:22px;
+    }
+
+    .poem-text{
+        font-size:14px;
+        line-height:1.5;
+    }
+
+    .poem-stanza{
+        margin-bottom:21px;
+    }
+
+    .poem-final-quote{
+        margin-top:25px;
+        font-size:12px;
+    }
+
+    /* =====================================================
+       SEGUNDO SOBRE EN PANTALLAS BAJAS
+    ===================================================== */
+
+    .recipient.second-title{
+        width:86%;
+        font-size:clamp(27px,7vw,45px);
+        line-height:1.05;
+        white-space:normal;
+    }
+
+    .detailed-button,
+    .poem-button,
+    .restart-button{
+        bottom:10px;
+
+        /* CAMBIO: también un poco más grandes en pantallas bajas */
+        padding:8px 10px;
+        font-size:10px;
+    }
+
+    .poem-button{
+        left:8px;
+    }
+
+    .restart-button{
+        right:8px;
+    }
+}
+
+</style>
+</head>
+
+
+<body>
+
+
+<!-- =========================================================
+     SOBRE
+========================================================= -->
+
+<main class="scene">
+
+    <div class="envelope-wrapper" id="envelope">
+
+        <div class="envelope front">
+
+            <div class="recipient" id="recipient">
+                Per la Valle
+            </div>
+
+
+            <!-- BOTÓN POESÍA -->
+
+            <button
+                class="poem-button"
+                id="poemButton"
+                type="button"
+            >
+                Poesia completa
+            </button>
+
+
+            <!-- BOTÓN EXPLICACIÓN -->
+
+            <button
+                class="detailed-button"
+                id="detailedButton"
+                type="button"
+            >
+                Explicació detallada
+            </button>
+
+
+            <!-- BOTÓN VOLVER AL PRINCIPIO -->
+
+            <button
+                class="restart-button"
+                id="restartButton"
+                type="button"
+            >
+                Tornar al principi
+            </button>
+
+        </div>
+
+
+        <div class="envelope back">
+
+            <div class="back-content">
+
+                <div class="open-area">
+
+                    <div class="arrows">
+                        <div class="arrow">→</div>
+                        <div class="arrow right">←</div>
+                    </div>
+
+                    <button
+                        class="open-button"
+                        id="openButton"
+                    >
+                        OBRIR
+                    </button>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <button
+        class="no-button"
+        id="noButton"
+    >
+        No el vull
+    </button>
+
+
+    <div
+        class="modal-overlay"
+        id="modalOverlay"
+    >
+
+        <div class="modal">
+
+            <h2>Ups! 😌</h2>
+
+            <p>
+                No és una opció.<br>
+                Intenta-ho de nou.
+            </p>
+
+            <button
+                class="close-modal"
+                id="closeModal"
+            >
+                D'acord
+            </button>
+
+        </div>
+
+    </div>
+
+</main>
+
+
+<!-- =========================================================
+     PANTALLA DE RECUERDOS
+========================================================= -->
+
+<section
+    class="photo-screen"
+    id="photoScreen"
+>
+
+    <div
+        class="memory memory-one active"
+        id="memoryOne"
+    >
+
+        <img
+            src="foto.png"
+            alt="Un record d'un any enrere"
+        >
+
+        <div class="photo-message">
+            Fa un any exactament estàvem aquí,
+            vestides pràcticament igual.
+        </div>
+
+    </div>
+
+
+    <div
+        class="memory memory-two"
+        id="memoryTwo"
+    >
+
+        <img
+            src="moritz.png"
+            alt="Buscant un lloc on prendre alguna cosa"
+        >
+
+        <div class="photo-message">
+            Buscant un lloc on prendre alguna cosa
+            i descobrir (per part meva) coses noves com el teu
+            concepte de ciutat caminable.
+        </div>
+
+    </div>
+
+
+    <div
+        class="memory memory-three"
+        id="memoryThree"
+    >
+
+        <div class="third-image">
+
+            <img
+                src="fotos-finales.png"
+                alt="Records compartits"
+            >
+
+        </div>
+
+
+        <div class="third-text">
+
+            <div class="long-message">
+
+                <p>
+                    Un any després, crec que me n'adono encara més de la sort que vaig tenir aquell dia. On, sense saber-ho, coneixeria algú molt important per mi.
+                </p>
+
+                <p>
+                    No només una bona persona, amb idees clares a defensar, preocupada pel que puguin sentir els altres i, de vegades, ratllada en excés i tot per això jajaja.
+                </p>
+
+                <p>
+                    Sinó algú amb qui em puc obrir, compartir el que em preocupa o el que em passa pel cap, sense pensar si li semblarà una tonteria. Bueno, i amb qui celebrar totes les coses bones que passin també.
+                </p>
+
+                <br>
+
+                <p>
+                    Des de que ens vam conèixer per mi cap dia ha sigut igual. I això m'agrada molt de tu. Amb els teus sí a tot... (que jo també ehh... però hi ha plans que saps que no encaixen en el dia de la setmana jajaj). És broma.
+                </p>
+
+                <p>
+                    Tot i que sí que és veritat que en tonteries com aquestes veig que m'estàs ensenyant coses. Potser a no ser tan quadriculada, i això que tu pots arribar a ser-ho més que jo.
+                </p>
+
+                <br>
+
+                <p>
+                    No obstant, el major aprenentatge que crec que estic fent (estic, perquè cada dia aprenc alguna cosa nova) és a estimar-te com sento que et mereixes.
+                </p>
+
+                <p>
+                    Amb això no em refereixo a aquesta part que surt sola i que penso que és la més fàcil. Sinó, com hem parlat ja alguna vegada, a triar-te també voluntàriament.
+                </p>
+
+                <p>
+                    Saber en què coincidim, en què no, quines coses són importants per tu, què vol dir un silenci, quin moment no és el millor per picar-te...😌
+                </p>
+
+                <p>
+                    En definitiva, saber com acompanyar-te per tal que tot es pugui fer una mica menys pesat.
+                </p>
+
+                <p>
+                    Sento que en això vaig aprenent dia a dia amb tu.
+                </p>
+
+                <br>
+
+                <p>
+                    Fent introspecció, seria una quimera si et digués que m'agradaria no fallar-te mai en tot això que et dic.
+                </p>
+
+                <p>
+                    Al final a viure s'aprèn vivint.
+                </p>
+
+                <p>
+                    Però hi ha una certesa que sí que m'agradaria que sabessis, i és que sempre que ho necessitis jo hi seré.
+                </p>
+
+                <p>
+                    Fa temps vaig sentir una frase que no vaig acabar d'entendre. I és que Bukowski deia que l'ésser humà té dos grans defectes: la incapacitat d'arribar puntual i la incapacitat de mantenir les promeses.
+                </p>
+
+                <p>
+                    Jo no et puc prometre que seré sempre puntual (en el sentit de fer-ho bé a la primera, que saps que a vegades sóc lenta), però sí et puc prometre que passi el que passi hi seré sempre que ho necessitis.
+                </p>
+
+            </div>
+
+
+            <div class="continue-container">
+
+                <button
+                    class="continue-button"
+                    id="continueButton"
+                    type="button"
+                >
+                    Seguir llegint
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================================================
+     CARTA FINAL
+========================================================= -->
+
+<section
+    class="blank-screen"
+    id="blankScreen"
+    aria-hidden="true"
+>
+
+    <div class="letter">
+
+        <div class="letter-content">
+
+            <div class="letter-title">
+                <br>
+                Una última cosa...
+            </div>
+
+
+            <div class="letter-text">
+
+                <p>
+                    Saps que sempre dic que sóc nefasta pensant què regalar...em passo hores buscant què comprar i després tot ho veig poc pràctic.
+                </p>
+
+                <p>
+                    Sé que en aquest cas no cal regalar res, però em fa il·lusió que tinguis alguna cosa per recordar aquest any. Així que he decidit fer les coses una mica diferents aquesta vegada.
+                </p>
+
+                <p>
+                    Com tu diries: he pensat "out of the box" jajaj.
+                </p>
+
+                <br>
+
+                <p>
+                    He arribat a la conclusió que el millor regal que se li pot fer a algú és regalar-li el teu temps.
+                </p>
+
+                <p>
+                    Amb això no vull dir que amb aquest any et donis per regalada jajajaj. Sinó que des de fa un temps he anat escrivint un text curt que crec que sintetitza de la manera més sincera aquest any (des de la meva perspectiva). I que espero que t'agradi.
+                </p>
+
+                <br>
+
+                <p>
+                    L'he anat escrivint al tren, a casa, a l'avió, abans de quedar, després... cada vegada que sentia que volia verbalitzar una frase l'anava apuntant per separat, pensant que arribaria un dia en què l'ajuntar-ho tindria sentit.
+                </p>
+
+                <p>
+                    Al final crec que el té.
+                </p>
+
+            </div>
+
+
+            <div class="letter-sign">
+                ♡
+            </div>
+
+
+            <div class="robot-dreams-final">
+
+                <img
+                    src="robot-dreams.png"
+                    alt="Un abrazo"
+                >
+
+                <div class="close-envelope-container">
+
+                    <button
+                        class="close-envelope-button"
+                        id="closeEnvelopeButton"
+                        type="button"
+                    >
+                        Tancar aquest sobre per rebre el següent
+                    </button>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================================================
+     PANTALLA EXPLICACIÓN DETALLADA
+========================================================= -->
+
+<section
+    class="detailed-screen"
+    id="detailedScreen"
+    aria-hidden="true"
+>
+
+    <button
+        class="detail-back-button"
+        id="detailBackButton"
+        type="button"
+        aria-label="Tornar"
+    >
+        ←
+    </button>
+
+
+    <div class="detailed-header">
+
+        <h1>
+            La ventana que no quiero dejar de mirar
+        </h1>
+
+    </div>
+
+
+    <div class="detailed-grid">
+
+
+        <div class="detailed-column poem-column">
+
+            <div class="detail-box">
+                <p>
+                    Hay caminos que empiezan despacio<br>
+                    como si el tiempo los quisiera cuidar.<br>
+                    Como los ríos que buscan su cauce<br>
+                    sin preguntarse dónde acabar.
+                </p>
+            </div>
+
+
+            <div class="detail-box">
+                <p>
+                    Hay un valle de verdes profundos<br>
+                    donde el ruido se aprende a apagar,<br>
+                    y se funde en el cielo azul y el beso salado del mar.
+                </p>
+            </div>
+
+
+            <div class="detail-box">
+                <p>
+                    Hay palabras que llegan más tarde<br>
+                    y encuentran su sitio después.<br>
+                    Hay silencios cargados de versos<br>
+                    que ya no quiero romper.
+                </p>
+            </div>
+
+
+            <div class="detail-box">
+                <p>
+                    Y qué pena ser ciego en Granada<br>
+                    cuando el sol se decide a bajar,<br>
+                    y se cuela por cada cuesta,<br>
+                    hasta volverlas fáciles de andar.
+                </p>
+            </div>
+
+
+            <div class="detail-box">
+                <p>
+                    Un gran lienzo en blanco<br>
+                    y yo sin saber pintar...<br>
+                    Dejo que el alma me sepa guiar.<br>
+                    Y es al dejar este mío tanto pensar<br>
+                    que tu lucero ilumina la línea a trazar.
+                </p>
+            </div>
+
+
+            <div class="detail-box">
+                <p>
+                    Son tres los tiempos donde tú estás,<br>
+                    aunque a veces alguno quisiera parar,<br>
+                    para así poder acompasar<br>
+                    el lento romper de las olas del mar.
+                </p>
+            </div>
+
+
+            <div class="detail-box">
+                <p>
+                    Y qué pena ser ciego en Granada<br>
+                    cuando el sol se decide a bajar,<br>
+                    e ilumina otro año la ventana<br>
+                    que no quiero dejar de mirar.
+                </p>
+            </div>
+
+
+            <div class="detail-box">
+                <p>
+                    <em>
+                        “Hay almas a las que uno tiene ganas de asomarse,<br>
+                        como una ventana llena de sol”. F.G.Lorca
+                    </em>
+                </p>
+            </div>
+
+        </div>
+
+
+        <div class="detailed-column explanation-column">
+
+            <div class="detail-box">
+                <p>
+                    Aquesta primera frase la vaig pensar bastant al principi, un dia que just em vas dir lenta jaja i que tu normalment eres més ràpida. I d'aquí vaig voler transmetre que sentia que havia sigut així, perquè era com havia de ser en el nostre cas.
+                    <br>
+                    En canvi, la segona va venir de la primera ratllada, on crec que les dues ens preguntàvem una mica cap a on havia de tirar la cosa, si és que havia de tirar. Recordo que d'aquella conversa vam dir que no ho sabíem, però que estàvem bé i potser lo seu era veure com continuava tot plegat, cap a on ens portava (cadascuna un riu paral·lel).
+                </p>
+            </div>
+
+            <div class="detail-box">
+                <p>
+                    En aquest segon paràgraf hi ha un salt temporal bastant gran. En aquest cas , amb la primera part volia transmetre la pau i serenitat que em dones (tot i que de vegades no t'ho puguis creure). Si hagués de descriure com et percebo seria bastant així. Clarament seria un paisatge de natura i muntanya verda. Imatge en la qual òbviament no pot faltar la referència al teu nom. M'agradava aquí molt la idea de l'horitzó i del cel que s'uneix amb el mar, que també sento una cosa molt teva (el mar i el cor blau). En concret, a la part del final visualitzo un moment que m'agrada molt, però que negaré quan estigui a la platja, que és quan t'estires a sobre i em fas un petó salat del mar.
+                </p>
+            </div>
+
+            <div class="detail-box">
+                <p>
+                    Aquesta part la veritat que recull per mi dos moments completament diferents, oposats inclús podria arribar a dir. Ho vaig escriure amb molt temps de diferència entre una i altra, però a l'hora d'ajuntar-ho li he trobat un sentit.
+                    La primera frase va de la mà de la dels rius. Ve d'un moment d'incomprensió per missatge que em va fer pensar. Però que temps després, amb les paraules que vas utilitzar per explicar-te, vaig comprendre.
+                    M'agrada el contrast que fa amb la següent que em transmet dues imatges molt concretes: el despertar a Peralada i quan decideixes no contestar verbalment, sinó que mires a terra i somrius en silenci.
+                </p>
+            </div>
+
+            <div class="detail-box">
+                <p>
+                    Aquesta primera frase et sona segur perquè te la vaig mencionar. Em va agradar molt l'explicació del significat. És a dir, la pena de qui envoltat d'una grandíssima bellesa (vegana, jaja és broma) no és capaç de veure-la. En aquest cas, la frase per mi pren un altre sentit. Vull plasmar la importància de viure sent conscient del que es té, quan arriba alguna cosa que il·lumina, encara més, el que sempre has vist. De manera que arribes a veure-ho diferent inclús. En aquest cas, amb la metàfora del sol volia aprofitar la imatge tan recurrent dels carrers de l'Albaicín. Carrers blancs, molt empinats, amb unes vistes precioses a l'Alhambra, pels quals em semblava molt maca la imatge del sol entrant per cada racó i fent més fàcils les pujades.
+                    En aquest sentit, les pujades són tot allò amb què et vas trobant a la vida i el sol és la llum que ens aporta qui ens envolta per fer el camí més fàcil de recórrer.
+                </p>
+            </div>
+
+            <div class="detail-box">
+                <p>
+                    Aquí passo a parlar una mica de mi. Volia transmetre el fet que, en certa manera, no em sento segura. Ens visualitzo com una gran tela en blanc, on encara queda molt per pintar. Però amb la incertesa de si ho sabré fer bé.
+                    Dubte davant del qual penso i l'única resposta que trobo és que per fer-ho el millor possible he de ser sincera amb el que sento i penso. I en deixar de pensar en excés, veig que les coses poden arribar a ser més fàcils.
+                    Acabo dient que el camí no el pinto sola (traient-me responsabilitat) i que és quan em permeto deixar-me guiar, que el camí comença a pintar-se sol.
+                </p>
+            </div>
+
+            <div class="detail-box">
+                <p>
+                    Aquest en concret és el que recordo de forma més clara. El vaig escriure quan em vas deixar a casa la nit del cine a la platja, mentre esperava que em diguessis que havies arribat (em va sortir ràpid i sense pensar). Amb els tres temps volia expressar: passat, present i futur.
+                    Aquella nit m'hauria agradat parar el temps per un moment quan va acabar la pel·lícula i se sentia de fons el compàs tranquil de les ones del mar. Crec que és el paràgraf més senzill d'explicar (sabent el moment que descriu) i  clarament, si el poema mostra l'evolució, aquesta és l'últim estrofa que tanca el text abans de
+                    la tornada, que ve a continuació per concloure.
+                </p>
+            </div>
+
+            <div class="detail-box">
+                <p>
+                    Aquí recupero el paràgraf que he explicat abans, però en aquest cas el sol il·lumina una finestra que no vull deixar de mirar. El significat passa a entendre's amb la frase de Lorca.
+                </p>
+            </div>
+
+            <div class="detail-box">
+                <p>
+                    Aquesta frase la vaig llegir i vaig pensar en tu. Crec que s'explica per si sola. Em va agradar tant que li vaig voler donar un protagonisme.
+                </p>
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================================================
+     NUEVA PANTALLA — POESÍA COMPLETA
+========================================================= -->
+
+<section
+    class="poem-screen"
+    id="poemScreen"
+    aria-hidden="true"
+>
+
+    <button
+        class="poem-back-button"
+        id="poemBackButton"
+        type="button"
+        aria-label="Tornar"
+    >
+        ←
+    </button>
+
+
+    <div class="poem-paper">
+
+        <h1 class="poem-title">
+            La ventana que no quiero dejar de mirar
+        </h1>
+
+
+        <div class="poem-text">
+
+
+            <div class="poem-stanza">
+                Hay caminos que empiezan despacio<br>
+                como si el tiempo los quisiera cuidar.<br>
+                Como los ríos que buscan su cauce<br>
+                sin preguntarse dónde acabar.
+            </div>
+
+
+            <div class="poem-stanza">
+                Hay un valle de verdes profundos<br>
+                donde el ruido se aprende a apagar,<br>
+                y se funde en el cielo azul y el beso salado del mar.
+            </div>
+
+
+            <div class="poem-stanza">
+                Hay palabras que llegan más tarde<br>
+                y encuentran su sitio después.<br>
+                Hay silencios cargados de versos<br>
+                que ya no quiero romper.
+            </div>
+
+
+            <div class="poem-stanza">
+                Y qué pena ser ciego en Granada<br>
+                cuando el sol se decide a bajar,<br>
+                y se cuela por cada cuesta,<br>
+                hasta volverlas fáciles de andar.
+            </div>
+
+
+            <div class="poem-stanza">
+                Un gran lienzo en blanco<br>
+                y yo sin saber pintar...<br>
+                Dejo que el alma me sepa guiar.<br>
+                Y es al dejar este mío tanto pensar<br>
+                que tu lucero ilumina la línea a trazar.
+            </div>
+
+
+            <div class="poem-stanza">
+                Son tres los tiempos donde tú estás,<br>
+                aunque a veces alguno quisiera parar,<br>
+                para así poder acompasar<br>
+                el lento romper de las olas del mar.
+            </div>
+
+
+            <div class="poem-stanza">
+                Y qué pena ser ciego en Granada<br>
+                cuando el sol se decide a bajar,<br>
+                e ilumina otro año la ventana<br>
+                que no quiero dejar de mirar.
+            </div>
+
+
+            <div class="poem-final-quote">
+                “Hay almas a las que uno tiene ganas de asomarse,<br>
+                como una ventana llena de sol”. Federico García Lorca
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<script>
+
+
+/* =========================================================
+   ELEMENTOS
+========================================================= */
+
+const envelope =
+    document.getElementById("envelope");
+
+const openButton =
+    document.getElementById("openButton");
+
+const noButton =
+    document.getElementById("noButton");
+
+const modalOverlay =
+    document.getElementById("modalOverlay");
+
+const closeModal =
+    document.getElementById("closeModal");
+
+const photoScreen =
+    document.getElementById("photoScreen");
+
+const memoryOne =
+    document.getElementById("memoryOne");
+
+const memoryTwo =
+    document.getElementById("memoryTwo");
+
+const memoryThree =
+    document.getElementById("memoryThree");
+
+const continueButton =
+    document.getElementById("continueButton");
+
+const blankScreen =
+    document.getElementById("blankScreen");
+
+const closeEnvelopeButton =
+    document.getElementById("closeEnvelopeButton");
+
+const detailedScreen =
+    document.getElementById("detailedScreen");
+
+const detailedButton =
+    document.getElementById("detailedButton");
+
+const poemButton =
+    document.getElementById("poemButton");
+
+const restartButton =
+    document.getElementById("restartButton");
+
+const poemScreen =
+    document.getElementById("poemScreen");
+
+const detailBackButton =
+    document.getElementById("detailBackButton");
+
+const poemBackButton =
+    document.getElementById("poemBackButton");
+
+const recipient =
+    document.getElementById("recipient");
+
+
+/* =========================================================
+   IMAGEN TERCERA PANTALLA
+========================================================= */
+
+const thirdImage =
+    document.querySelector(".third-image");
+
+const thirdImageElement =
+    document.querySelector(".third-image img");
+
+
+function updateThirdImageScroll(){
+
+    if(
+        !thirdImage ||
+        !thirdImageElement
+    ){
+        return;
+    }
+
+    if(!thirdImageElement.naturalWidth){
+        return;
+    }
+
+    const containerWidth =
+        thirdImage.clientWidth;
+
+    const containerHeight =
+        thirdImage.clientHeight;
+
+    const imageHeight =
+        containerWidth *
+        (
+            thirdImageElement.naturalHeight /
+            thirdImageElement.naturalWidth
+        );
+
+    const scrollDistance =
+        Math.max(
+            0,
+            imageHeight - containerHeight
+        );
+
+    if(scrollDistance <= 0){
+
+        thirdImageElement.style.animation =
+            "none";
+
+        thirdImageElement.style.transform =
+            "translateY(0)";
+
+        return;
+    }
+
+    thirdImageElement.style.setProperty(
+        "--third-scroll-distance",
+        `-${scrollDistance}px`
+    );
+
+    const duration =
+        Math.max(
+            8,
+            Math.min(
+                20,
+                8 + scrollDistance / 90
+            )
+        );
+
+    thirdImageElement.style.setProperty(
+        "--third-scroll-duration",
+        `${duration}s`
+    );
+
+    thirdImageElement.style.animation =
+        "none";
+
+    void thirdImageElement.offsetWidth;
+
+    thirdImageElement.style.animation =
+        `thirdImageScroll ${duration}s ease-in-out infinite alternate`;
+}
+
+
+thirdImageElement.addEventListener(
+    "load",
+    updateThirdImageScroll
+);
+
+if(thirdImageElement.complete){
+    updateThirdImageScroll();
+}
+
+
+/* =========================================================
+   VARIABLES
+========================================================= */
+
+let noButtonStarted = false;
+
+let targetX = 0;
+let targetY = 0;
+
+let currentX = 0;
+let currentY = 0;
+
+let lastJump = 0;
+
+
+/* =========================================================
+   BOTONES OCULTOS INICIALMENTE
+========================================================= */
+
+detailedButton.classList.remove("show");
+poemButton.classList.remove("show");
+restartButton.classList.remove("show");
+
+
+/* =========================================================
+   GIRO AUTOMÁTICO DEL SOBRE
+========================================================= */
+
+setTimeout(()=>{
+
+    envelope.classList.add("flipped");
+
+    setTimeout(()=>{
+
+        startNoButtonMovement();
+
+    },1600);
+
+},4000);
+
+
+/* =========================================================
+   NO EL VULL
+========================================================= */
+
+function startNoButtonMovement(){
+
+    if(noButtonStarted){
+        return;
+    }
+
+    noButtonStarted = true;
+
+    const initial =
+        getRandomPosition();
+
+    targetX = initial.x;
+    targetY = initial.y;
+
+    currentX = targetX;
+    currentY = targetY;
+
+    noButton.style.left =
+        `${currentX}px`;
+
+    noButton.style.top =
+        `${currentY}px`;
+
+    requestAnimationFrame(
+        animateNoButton
+    );
+}
+
+
+function animateNoButton(timestamp){
+
+    if(!noButtonStarted){
+        return;
+    }
+
+    if(timestamp-lastJump>1150){
+
+        const newPosition =
+            getRandomPosition();
+
+        targetX = newPosition.x;
+        targetY = newPosition.y;
+
+        lastJump = timestamp;
+    }
+
+    currentX +=
+        (targetX-currentX)*.045;
+
+    currentY +=
+        (targetY-currentY)*.045;
+
+    noButton.style.left =
+        `${currentX}px`;
+
+    noButton.style.top =
+        `${currentY}px`;
+
+    requestAnimationFrame(
+        animateNoButton
+    );
+}
+
+
+function getRandomPosition(){
+
+    const padding = 20;
+
+    const buttonWidth =
+        noButton.offsetWidth || 80;
+
+    const buttonHeight =
+        noButton.offsetHeight || 30;
+
+    const maxX =
+        window.innerWidth-buttonWidth-padding;
+
+    const maxY =
+        window.innerHeight-buttonHeight-padding;
+
+    let x;
+    let y;
+    let attempts = 0;
+
+    do{
+
+        x =
+            padding+
+            Math.random()*
+            Math.max(
+                1,
+                maxX-padding
+            );
+
+        y =
+            padding+
+            Math.random()*
+            Math.max(
+                1,
+                maxY-padding
+            );
+
+        attempts++;
+
+        if(attempts>30){
+            break;
+        }
+
+    }while(
+        x>window.innerWidth*.20 &&
+        x<window.innerWidth*.80 &&
+        y>window.innerHeight*.30 &&
+        y<window.innerHeight*.70
+    );
+
+    return {x,y};
+}
+
+
+noButton.addEventListener(
+    "click",
+    (event)=>{
+
+        event.preventDefault();
+
+        modalOverlay.classList.add(
+            "show"
+        );
+
+    }
+);
+
+
+closeModal.addEventListener(
+    "click",
+    ()=>{
+
+        modalOverlay.classList.remove(
+            "show"
+        );
+
+    }
+);
+
+
+modalOverlay.addEventListener(
+    "click",
+    (event)=>{
+
+        if(
+            event.target ===
+            modalOverlay
+        ){
+
+            modalOverlay.classList.remove(
+                "show"
+            );
+
+        }
+
+    }
+);
+
+
+/* =========================================================
+   BOTÓN OBRIR
+========================================================= */
+
+openButton.addEventListener(
+    "click",
+    ()=>{
+
+        envelope.style.transition =
+            "opacity .7s ease, transform .9s ease";
+
+        envelope.style.opacity =
+            "0";
+
+        envelope.style.transform =
+            "rotateY(180deg) scale(1.08)";
+
+        noButton.style.opacity =
+            "0";
+
+        noButton.style.pointerEvents =
+            "none";
+
+        setTimeout(()=>{
+
+            photoScreen.classList.add(
+                "show"
+            );
+
+            setTimeout(
+                ()=>{
+
+                    showSecondMemory();
+
+                },
+                4000
+            );
+
+        },500);
+
+    }
+);
+
+
+/* =========================================================
+   FOTO 1 → FOTO 2
+========================================================= */
+
+function showSecondMemory(){
+
+    memoryOne.classList.add(
+        "walking-out"
+    );
+
+    setTimeout(()=>{
+
+        memoryTwo.classList.add(
+            "active"
+        );
+
+    },500);
+
+    setTimeout(()=>{
+
+        showThirdMemory();
+
+    },6500);
+
+    setTimeout(()=>{
+
+        memoryOne.classList.remove(
+            "active",
+            "walking-out"
+        );
+
+    },1700);
+}
+
+
+/* =========================================================
+   FOTO 2 → FOTO 3
+========================================================= */
+
+function showThirdMemory(){
+
+    memoryTwo.classList.add(
+        "walking-out"
+    );
+
+    setTimeout(()=>{
+
+        memoryThree.classList.add(
+            "active"
+        );
+
+        updateThirdImageScroll();
+
+    },350);
+
+    setTimeout(()=>{
+
+        memoryTwo.classList.remove(
+            "active",
+            "walking-out"
+        );
+
+    },1700);
+}
+
+
+/* =========================================================
+   SEGUIR LLEGINT
+========================================================= */
+
+continueButton.addEventListener(
+    "click",
+    function(event){
+
+        event.preventDefault();
+        event.stopPropagation();
+
+        blankScreen.classList.add(
+            "show"
+        );
+
+        blankScreen.setAttribute(
+            "aria-hidden",
+            "false"
+        );
+
+    }
+);
+
+
+/* =========================================================
+   CERRAR CARTA
+========================================================= */
+
+closeEnvelopeButton.addEventListener(
+    "click",
+    function(event){
+
+        event.preventDefault();
+        event.stopPropagation();
+
+        blankScreen.classList.add(
+            "closing"
+        );
+
+        setTimeout(()=>{
+
+            blankScreen.classList.remove(
+                "show",
+                "closing"
+            );
+
+            blankScreen.setAttribute(
+                "aria-hidden",
+                "true"
+            );
+
+            photoScreen.classList.remove(
+                "show"
+            );
+
+            memoryOne.classList.add(
+                "active"
+            );
+
+            memoryOne.classList.remove(
+                "walking-out"
+            );
+
+            memoryTwo.classList.remove(
+                "active",
+                "walking-out"
+            );
+
+            memoryThree.classList.remove(
+                "active"
+            );
+
+            thirdImageElement.style.animation =
+                "none";
+
+            thirdImageElement.style.transform =
+                "translateY(0)";
+
+
+            envelope.classList.remove(
+                "flipped"
+            );
+
+            envelope.style.opacity =
+                "1";
+
+            envelope.style.transform =
+                "";
+
+
+            /* =============================================
+               CAMBIAR EL TÍTULO DEL SEGUNDO SOBRE
+            ============================================= */
+
+            recipient.textContent =
+                "La ventana que no quiero dejar de mirar";
+
+            recipient.classList.add(
+                "second-title"
+            );
+
+
+            /* =============================================
+               MOSTRAR LOS TRES BOTONES DEL SOBRE
+            ============================================= */
+
+            detailedButton.classList.add(
+                "show"
+            );
+
+            poemButton.classList.add(
+                "show"
+            );
+
+            restartButton.classList.add(
+                "show"
+            );
+
+
+            noButton.style.opacity =
+                "0";
+
+            noButton.style.pointerEvents =
+                "none";
+
+            noButtonStarted = false;
+
+        },1450);
+
+    }
+);
+
+
+/* =========================================================
+   ABRIR EXPLICACIÓN DETALLADA
+========================================================= */
+
+detailedButton.addEventListener(
+    "click",
+    function(event){
+
+        event.preventDefault();
+        event.stopPropagation();
+
+        detailedScreen.classList.add(
+            "show"
+        );
+
+        detailedScreen.setAttribute(
+            "aria-hidden",
+            "false"
+        );
+
+    }
+);
+
+
+/* =========================================================
+   VOLVER DESDE EXPLICACIÓN
+   → REGRESA A LA VENTANA
+========================================================= */
+
+detailBackButton.addEventListener(
+    "click",
+    function(event){
+
+        event.preventDefault();
+        event.stopPropagation();
+
+        detailedScreen.classList.remove(
+            "show"
+        );
+
+        detailedScreen.setAttribute(
+            "aria-hidden",
+            "true"
+        );
+
+    }
+);
+
+
+/* =========================================================
+   ABRIR POESÍA COMPLETA
+========================================================= */
+
+poemButton.addEventListener(
+    "click",
+    function(event){
+
+        event.preventDefault();
+        event.stopPropagation();
+
+        poemScreen.classList.add(
+            "show"
+        );
+
+        poemScreen.setAttribute(
+            "aria-hidden",
+            "false"
+        );
+
+    }
+);
+
+
+/* =========================================================
+   VOLVER DESDE POESÍA
+   → REGRESA A LA VENTANA
+========================================================= */
+
+poemBackButton.addEventListener(
+    "click",
+    function(event){
+
+        event.preventDefault();
+        event.stopPropagation();
+
+        poemScreen.classList.remove(
+            "show"
+        );
+
+        poemScreen.setAttribute(
+            "aria-hidden",
+            "true"
+        );
+
+    }
+);
+
+
+/* =========================================================
+   TORNAR AL PRINCIPI
+   → REINICIA TODO Y VUELVE A "PER LA VALLE"
+========================================================= */
+
+restartButton.addEventListener(
+    "click",
+    function(event){
+
+        event.preventDefault();
+        event.stopPropagation();
+
+        /* Cerrar pantallas superiores */
+        detailedScreen.classList.remove("show");
+        poemScreen.classList.remove("show");
+        blankScreen.classList.remove("show","closing");
+
+        detailedScreen.setAttribute(
+            "aria-hidden",
+            "true"
+        );
+
+        poemScreen.setAttribute(
+            "aria-hidden",
+            "true"
+        );
+
+        blankScreen.setAttribute(
+            "aria-hidden",
+            "true"
+        );
+
+
+        /* Reiniciar fotos */
+        photoScreen.classList.remove(
+            "show"
+        );
+
+        memoryOne.classList.add(
+            "active"
+        );
+
+        memoryOne.classList.remove(
+            "walking-out"
+        );
+
+        memoryTwo.classList.remove(
+            "active",
+            "walking-out"
+        );
+
+        memoryThree.classList.remove(
+            "active"
+        );
+
+        thirdImageElement.style.animation =
+            "none";
+
+        thirdImageElement.style.transform =
+            "translateY(0)";
+
+
+        /* Reiniciar sobre */
+        envelope.classList.remove(
+            "flipped"
+        );
+
+        envelope.style.opacity =
+            "1";
+
+        envelope.style.transform =
+            "";
+
+        envelope.style.transition =
+            "transform 1.55s cubic-bezier(.22,.61,.36,1)";
+
+
+        /* Volver al título original */
+        recipient.textContent =
+            "Per la Valle";
+
+        recipient.classList.remove(
+            "second-title"
+        );
+
+
+        /* Ocultar botones del segundo sobre */
+        detailedButton.classList.remove(
+            "show"
+        );
+
+        poemButton.classList.remove(
+            "show"
+        );
+
+        restartButton.classList.remove(
+            "show"
+        );
+
+
+        /* Reiniciar botón No el vull */
+        noButtonStarted = false;
+
+        noButton.style.opacity =
+            "0";
+
+        noButton.style.pointerEvents =
+            "none";
+
+
+        /* Volver a iniciar automáticamente
+           exactamente como al cargar la página */
+
+        setTimeout(()=>{
+
+            envelope.classList.add(
+                "flipped"
+            );
+
+            setTimeout(()=>{
+
+                startNoButtonMovement();
+
+            },1600);
+
+        },4000);
+
+    }
+);
+
+
+/* =========================================================
+   RESIZE
+========================================================= */
+
+window.addEventListener(
+    "resize",
+    ()=>{
+
+        if(noButtonStarted){
+
+            const newPosition =
+                getRandomPosition();
+
+            targetX =
+                newPosition.x;
+
+            targetY =
+                newPosition.y;
+
+        }
+
+        updateThirdImageScroll();
+
+    }
+);
+
+</script>
+
+</body>
+</html>
